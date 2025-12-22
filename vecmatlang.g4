@@ -105,8 +105,8 @@ literal
 // Lexer
 WS: [ ]+ -> skip;
 NEWLINE: '\r'? '\n';
-INDENT: 'INDENT' { /* Вставка через код */ };
-DEDENT: 'DEDENT' { /* Вставка через код */ };
+INDENT: 'INDENT' { pass # Вставка через код };
+DEDENT: 'DEDENT' { pass # Вставка через код };
 
 
 // Keywords
@@ -129,8 +129,8 @@ BREAK: 'exit';
 LEN: 'len';
 
 // Logical operators
-AND: '&';
-OR: '|';
+AND: '&&';
+OR: '||';
 NOT: '!';
 
 // Types
