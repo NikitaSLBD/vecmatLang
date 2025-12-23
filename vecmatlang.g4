@@ -48,7 +48,7 @@ ifStatement:
     (ELSE NEWLINE block)?;
 
 forStatement: 
-    FOR ID IN RANGE '(' expression ',' expression ')' NEWLINE
+    FOR ID IN RANGE '(' expression (',' expression)? (',' expression)? ')' NEWLINE
     block;
 
 whileStatement: 
@@ -59,10 +59,10 @@ untilStatement:
     UNTIL expression NEWLINE
     block;
     
-returnStatement: RETURN expression (',' expression)*;
+returnStatement: RETURN argumentList;
 
-writeStatement: WRITE '(' expression (',' expression)* ')';
-readStatement: READ '(' expression (',' expression)* ')';
+writeStatement: WRITE '(' argumentList? ')';
+readStatement: READ '(' argumentList? ')';
 
 expression
     : primaryExpression                                     #primaryExpr
@@ -90,6 +90,7 @@ primaryExpression
     | var                                               #idExpr
     | type '(' argumentList? ')'                        #typeExpr
     | LEN '(' argumentList? ')'                         #lenExpr
+    | readStatement                                     #readExpr
     ;
     
 argumentList: expression (',' expression)*;
@@ -105,8 +106,12 @@ literal
 // Lexer
 WS: [ ]+ -> skip;
 NEWLINE: '\r'? '\n';
-INDENT: 'INDENT' { pass # Вставка через код };
-DEDENT: 'DEDENT' { pass # Вставка через код };
+TAB: '\t' -> skip;
+
+// INDENT и DEDENT будут обрабатываться кастомным лексером
+// Только декларация для парсера
+INDENT: '<<INDENT>>';
+DEDENT: '<<DEDENT>>';
 
 
 // Keywords

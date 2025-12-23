@@ -194,6 +194,11 @@ class vecmatlangVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by vecmatlangParser#readExpr.
+    def visitReadExpr(self, ctx:vecmatlangParser.ReadExprContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by vecmatlangParser#argumentList.
     def visitArgumentList(self, ctx:vecmatlangParser.ArgumentListContext):
         return self.visitChildren(ctx)

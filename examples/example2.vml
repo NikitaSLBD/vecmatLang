@@ -1,0 +1,18 @@
+# объявление подпрограммы 
+func factorial(n):
+    result = 1
+    for i in range(1, n)
+        result = result * i
+    return result * i
+
+# сложное выражение подпрограмма принимает результат другой подпрограммы
+num = int(read())
+write("Факториал числа ", num, " равен ", factorial(num))
+
+vec = [1, 2, 3]
+
+# оператор цикла until
+until |vec| > 10
+    vec = vec * 2
+
+write("Конечная длина вектора: ", |vec|)

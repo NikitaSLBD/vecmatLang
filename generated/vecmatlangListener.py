@@ -341,6 +341,15 @@ class vecmatlangListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by vecmatlangParser#readExpr.
+    def enterReadExpr(self, ctx:vecmatlangParser.ReadExprContext):
+        pass
+
+    # Exit a parse tree produced by vecmatlangParser#readExpr.
+    def exitReadExpr(self, ctx:vecmatlangParser.ReadExprContext):
+        pass
+
+
     # Enter a parse tree produced by vecmatlangParser#argumentList.
     def enterArgumentList(self, ctx:vecmatlangParser.ArgumentListContext):
         pass

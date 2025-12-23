@@ -10,7 +10,7 @@ else:
 
 def serializedATN():
     return [
-        4,1,52,393,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        4,1,53,384,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
         6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,
         2,14,7,14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,
         7,20,2,21,7,21,2,22,7,22,2,23,7,23,2,24,7,24,2,25,7,25,1,0,5,0,54,
@@ -27,50 +27,49 @@ def serializedATN():
         12,1,12,1,13,1,13,1,13,4,13,194,8,13,11,13,12,13,195,1,13,1,13,1,
         13,1,13,1,13,1,13,4,13,204,8,13,11,13,12,13,205,3,13,208,8,13,1,
         14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,3,14,218,8,14,1,15,1,15,1,
-        15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,16,1,16,1,16,1,
-        16,1,16,1,17,1,17,1,17,1,17,1,17,1,18,1,18,1,18,1,18,5,18,246,8,
-        18,10,18,12,18,249,9,18,1,19,1,19,1,19,1,19,1,19,5,19,256,8,19,10,
-        19,12,19,259,9,19,1,19,1,19,1,20,1,20,1,20,1,20,1,20,5,20,268,8,
-        20,10,20,12,20,271,9,20,1,20,1,20,1,21,1,21,1,21,1,21,1,21,1,21,
-        1,21,1,21,1,21,1,21,3,21,285,8,21,1,21,1,21,1,21,1,21,1,21,1,21,
-        1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,5,21,304,
-        8,21,10,21,12,21,307,9,21,1,22,1,22,1,23,1,23,1,23,1,23,1,23,1,23,
-        1,23,1,23,3,23,319,8,23,1,23,1,23,1,23,1,23,1,23,1,23,3,23,327,8,
-        23,1,23,1,23,1,23,1,23,1,23,3,23,334,8,23,1,23,3,23,337,8,23,1,24,
-        1,24,1,24,5,24,342,8,24,10,24,12,24,345,9,24,1,25,1,25,1,25,1,25,
-        1,25,1,25,5,25,353,8,25,10,25,12,25,356,9,25,1,25,1,25,1,25,1,25,
-        1,25,1,25,1,25,5,25,365,8,25,10,25,12,25,368,9,25,1,25,1,25,1,25,
-        1,25,1,25,1,25,5,25,376,8,25,10,25,12,25,379,9,25,1,25,1,25,5,25,
-        383,8,25,10,25,12,25,386,9,25,1,25,1,25,1,25,3,25,391,8,25,1,25,
-        0,1,42,26,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,
-        40,42,44,46,48,50,0,5,1,0,11,12,2,0,10,10,13,13,1,0,14,19,1,0,41,
-        42,1,0,44,47,431,0,55,1,0,0,0,2,66,1,0,0,0,4,77,1,0,0,0,6,85,1,0,
-        0,0,8,93,1,0,0,0,10,104,1,0,0,0,12,113,1,0,0,0,14,124,1,0,0,0,16,
-        128,1,0,0,0,18,171,1,0,0,0,20,180,1,0,0,0,22,184,1,0,0,0,24,186,
-        1,0,0,0,26,207,1,0,0,0,28,209,1,0,0,0,30,219,1,0,0,0,32,231,1,0,
-        0,0,34,236,1,0,0,0,36,241,1,0,0,0,38,250,1,0,0,0,40,262,1,0,0,0,
-        42,284,1,0,0,0,44,308,1,0,0,0,46,336,1,0,0,0,48,338,1,0,0,0,50,390,
-        1,0,0,0,52,54,3,2,1,0,53,52,1,0,0,0,54,57,1,0,0,0,55,53,1,0,0,0,
-        55,56,1,0,0,0,56,61,1,0,0,0,57,55,1,0,0,0,58,60,3,18,9,0,59,58,1,
-        0,0,0,60,63,1,0,0,0,61,59,1,0,0,0,61,62,1,0,0,0,62,64,1,0,0,0,63,
-        61,1,0,0,0,64,65,5,0,0,1,65,1,1,0,0,0,66,67,5,31,0,0,67,68,5,48,
-        0,0,68,70,5,1,0,0,69,71,3,4,2,0,70,69,1,0,0,0,70,71,1,0,0,0,71,72,
-        1,0,0,0,72,73,5,2,0,0,73,74,5,3,0,0,74,75,5,21,0,0,75,76,3,6,3,0,
-        76,3,1,0,0,0,77,82,5,48,0,0,78,79,5,4,0,0,79,81,5,48,0,0,80,78,1,
-        0,0,0,81,84,1,0,0,0,82,80,1,0,0,0,82,83,1,0,0,0,83,5,1,0,0,0,84,
-        82,1,0,0,0,85,87,5,22,0,0,86,88,3,18,9,0,87,86,1,0,0,0,88,89,1,0,
-        0,0,89,87,1,0,0,0,89,90,1,0,0,0,90,91,1,0,0,0,91,92,5,23,0,0,92,
-        7,1,0,0,0,93,94,5,36,0,0,94,95,5,48,0,0,95,97,5,1,0,0,96,98,3,4,
-        2,0,97,96,1,0,0,0,97,98,1,0,0,0,98,99,1,0,0,0,99,100,5,2,0,0,100,
+        15,1,15,1,15,1,15,1,15,1,15,3,15,228,8,15,1,15,1,15,3,15,232,8,15,
+        1,15,1,15,1,15,1,15,1,16,1,16,1,16,1,16,1,16,1,17,1,17,1,17,1,17,
+        1,17,1,18,1,18,1,18,1,19,1,19,1,19,3,19,254,8,19,1,19,1,19,1,20,
+        1,20,1,20,3,20,261,8,20,1,20,1,20,1,21,1,21,1,21,1,21,1,21,1,21,
+        1,21,1,21,1,21,1,21,3,21,275,8,21,1,21,1,21,1,21,1,21,1,21,1,21,
+        1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,5,21,294,
+        8,21,10,21,12,21,297,9,21,1,22,1,22,1,23,1,23,1,23,1,23,1,23,1,23,
+        1,23,1,23,3,23,309,8,23,1,23,1,23,1,23,1,23,1,23,1,23,3,23,317,8,
+        23,1,23,1,23,1,23,1,23,1,23,3,23,324,8,23,1,23,1,23,3,23,328,8,23,
+        1,24,1,24,1,24,5,24,333,8,24,10,24,12,24,336,9,24,1,25,1,25,1,25,
+        1,25,1,25,1,25,5,25,344,8,25,10,25,12,25,347,9,25,1,25,1,25,1,25,
+        1,25,1,25,1,25,1,25,5,25,356,8,25,10,25,12,25,359,9,25,1,25,1,25,
+        1,25,1,25,1,25,1,25,5,25,367,8,25,10,25,12,25,370,9,25,1,25,1,25,
+        5,25,374,8,25,10,25,12,25,377,9,25,1,25,1,25,1,25,3,25,382,8,25,
+        1,25,0,1,42,26,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,
+        36,38,40,42,44,46,48,50,0,5,1,0,11,12,2,0,10,10,13,13,1,0,14,19,
+        1,0,42,43,1,0,45,48,424,0,55,1,0,0,0,2,66,1,0,0,0,4,77,1,0,0,0,6,
+        85,1,0,0,0,8,93,1,0,0,0,10,104,1,0,0,0,12,113,1,0,0,0,14,124,1,0,
+        0,0,16,128,1,0,0,0,18,171,1,0,0,0,20,180,1,0,0,0,22,184,1,0,0,0,
+        24,186,1,0,0,0,26,207,1,0,0,0,28,209,1,0,0,0,30,219,1,0,0,0,32,237,
+        1,0,0,0,34,242,1,0,0,0,36,247,1,0,0,0,38,250,1,0,0,0,40,257,1,0,
+        0,0,42,274,1,0,0,0,44,298,1,0,0,0,46,327,1,0,0,0,48,329,1,0,0,0,
+        50,381,1,0,0,0,52,54,3,2,1,0,53,52,1,0,0,0,54,57,1,0,0,0,55,53,1,
+        0,0,0,55,56,1,0,0,0,56,61,1,0,0,0,57,55,1,0,0,0,58,60,3,18,9,0,59,
+        58,1,0,0,0,60,63,1,0,0,0,61,59,1,0,0,0,61,62,1,0,0,0,62,64,1,0,0,
+        0,63,61,1,0,0,0,64,65,5,0,0,1,65,1,1,0,0,0,66,67,5,32,0,0,67,68,
+        5,49,0,0,68,70,5,1,0,0,69,71,3,4,2,0,70,69,1,0,0,0,70,71,1,0,0,0,
+        71,72,1,0,0,0,72,73,5,2,0,0,73,74,5,3,0,0,74,75,5,21,0,0,75,76,3,
+        6,3,0,76,3,1,0,0,0,77,82,5,49,0,0,78,79,5,4,0,0,79,81,5,49,0,0,80,
+        78,1,0,0,0,81,84,1,0,0,0,82,80,1,0,0,0,82,83,1,0,0,0,83,5,1,0,0,
+        0,84,82,1,0,0,0,85,87,5,23,0,0,86,88,3,18,9,0,87,86,1,0,0,0,88,89,
+        1,0,0,0,89,87,1,0,0,0,89,90,1,0,0,0,90,91,1,0,0,0,91,92,5,24,0,0,
+        92,7,1,0,0,0,93,94,5,37,0,0,94,95,5,49,0,0,95,97,5,1,0,0,96,98,3,
+        4,2,0,97,96,1,0,0,0,97,98,1,0,0,0,98,99,1,0,0,0,99,100,5,2,0,0,100,
         101,5,3,0,0,101,102,5,21,0,0,102,103,3,10,5,0,103,9,1,0,0,0,104,
-        107,5,22,0,0,105,108,3,18,9,0,106,108,3,12,6,0,107,105,1,0,0,0,107,
+        107,5,23,0,0,105,108,3,18,9,0,106,108,3,12,6,0,107,105,1,0,0,0,107,
         106,1,0,0,0,108,109,1,0,0,0,109,107,1,0,0,0,109,110,1,0,0,0,110,
-        111,1,0,0,0,111,112,5,23,0,0,112,11,1,0,0,0,113,114,5,37,0,0,114,
-        115,5,48,0,0,115,117,5,1,0,0,116,118,3,4,2,0,117,116,1,0,0,0,117,
+        111,1,0,0,0,111,112,5,24,0,0,112,11,1,0,0,0,113,114,5,38,0,0,114,
+        115,5,49,0,0,115,117,5,1,0,0,116,118,3,4,2,0,117,116,1,0,0,0,117,
         118,1,0,0,0,118,119,1,0,0,0,119,120,5,2,0,0,120,121,5,3,0,0,121,
-        122,5,21,0,0,122,123,3,6,3,0,123,13,1,0,0,0,124,125,5,48,0,0,125,
-        126,5,5,0,0,126,127,5,48,0,0,127,15,1,0,0,0,128,129,5,48,0,0,129,
-        130,5,5,0,0,130,131,5,48,0,0,131,133,5,1,0,0,132,134,3,48,24,0,133,
+        122,5,21,0,0,122,123,3,6,3,0,123,13,1,0,0,0,124,125,5,49,0,0,125,
+        126,5,5,0,0,126,127,5,49,0,0,127,15,1,0,0,0,128,129,5,49,0,0,129,
+        130,5,5,0,0,130,131,5,49,0,0,131,133,5,1,0,0,132,134,3,48,24,0,133,
         132,1,0,0,0,133,134,1,0,0,0,134,135,1,0,0,0,135,136,5,2,0,0,136,
         17,1,0,0,0,137,139,3,22,11,0,138,140,5,21,0,0,139,138,1,0,0,0,139,
         140,1,0,0,0,140,172,1,0,0,0,141,172,3,8,4,0,142,172,3,28,14,0,143,
@@ -80,13 +79,13 @@ def serializedATN():
         0,0,153,172,1,0,0,0,154,156,3,38,19,0,155,157,5,21,0,0,156,155,1,
         0,0,0,156,157,1,0,0,0,157,172,1,0,0,0,158,160,3,40,20,0,159,161,
         5,21,0,0,160,159,1,0,0,0,160,161,1,0,0,0,161,172,1,0,0,0,162,164,
-        5,38,0,0,163,165,5,21,0,0,164,163,1,0,0,0,164,165,1,0,0,0,165,172,
-        1,0,0,0,166,168,5,39,0,0,167,169,5,21,0,0,168,167,1,0,0,0,168,169,
+        5,39,0,0,163,165,5,21,0,0,164,163,1,0,0,0,164,165,1,0,0,0,165,172,
+        1,0,0,0,166,168,5,40,0,0,167,169,5,21,0,0,168,167,1,0,0,0,168,169,
         1,0,0,0,169,172,1,0,0,0,170,172,5,21,0,0,171,137,1,0,0,0,171,141,
         1,0,0,0,171,142,1,0,0,0,171,143,1,0,0,0,171,144,1,0,0,0,171,145,
         1,0,0,0,171,146,1,0,0,0,171,150,1,0,0,0,171,154,1,0,0,0,171,158,
         1,0,0,0,171,162,1,0,0,0,171,166,1,0,0,0,171,170,1,0,0,0,172,19,1,
-        0,0,0,173,181,5,48,0,0,174,181,3,14,7,0,175,176,5,48,0,0,176,177,
+        0,0,0,173,181,5,49,0,0,174,181,3,14,7,0,175,176,5,49,0,0,176,177,
         5,6,0,0,177,178,3,42,21,0,178,179,5,7,0,0,179,181,1,0,0,0,180,173,
         1,0,0,0,180,174,1,0,0,0,180,175,1,0,0,0,181,21,1,0,0,0,182,185,3,
         24,12,0,183,185,3,26,13,0,184,182,1,0,0,0,184,183,1,0,0,0,185,23,
@@ -96,64 +95,62 @@ def serializedATN():
         197,1,0,0,0,197,198,5,8,0,0,198,199,3,46,23,0,199,208,1,0,0,0,200,
         203,3,42,21,0,201,202,5,4,0,0,202,204,3,42,21,0,203,201,1,0,0,0,
         204,205,1,0,0,0,205,203,1,0,0,0,205,206,1,0,0,0,206,208,1,0,0,0,
-        207,190,1,0,0,0,207,200,1,0,0,0,208,27,1,0,0,0,209,210,5,24,0,0,
-        210,211,3,42,21,0,211,212,5,25,0,0,212,213,5,21,0,0,213,217,3,6,
-        3,0,214,215,5,26,0,0,215,216,5,21,0,0,216,218,3,6,3,0,217,214,1,
-        0,0,0,217,218,1,0,0,0,218,29,1,0,0,0,219,220,5,27,0,0,220,221,5,
-        48,0,0,221,222,5,28,0,0,222,223,5,35,0,0,223,224,5,1,0,0,224,225,
-        3,42,21,0,225,226,5,4,0,0,226,227,3,42,21,0,227,228,5,2,0,0,228,
-        229,5,21,0,0,229,230,3,6,3,0,230,31,1,0,0,0,231,232,5,29,0,0,232,
-        233,3,42,21,0,233,234,5,21,0,0,234,235,3,6,3,0,235,33,1,0,0,0,236,
-        237,5,30,0,0,237,238,3,42,21,0,238,239,5,21,0,0,239,240,3,6,3,0,
-        240,35,1,0,0,0,241,242,5,32,0,0,242,247,3,42,21,0,243,244,5,4,0,
-        0,244,246,3,42,21,0,245,243,1,0,0,0,246,249,1,0,0,0,247,245,1,0,
-        0,0,247,248,1,0,0,0,248,37,1,0,0,0,249,247,1,0,0,0,250,251,5,33,
-        0,0,251,252,5,1,0,0,252,257,3,42,21,0,253,254,5,4,0,0,254,256,3,
-        42,21,0,255,253,1,0,0,0,256,259,1,0,0,0,257,255,1,0,0,0,257,258,
-        1,0,0,0,258,260,1,0,0,0,259,257,1,0,0,0,260,261,5,2,0,0,261,39,1,
-        0,0,0,262,263,5,34,0,0,263,264,5,1,0,0,264,269,3,42,21,0,265,266,
-        5,4,0,0,266,268,3,42,21,0,267,265,1,0,0,0,268,271,1,0,0,0,269,267,
-        1,0,0,0,269,270,1,0,0,0,270,272,1,0,0,0,271,269,1,0,0,0,272,273,
-        5,2,0,0,273,41,1,0,0,0,274,275,6,21,-1,0,275,285,3,46,23,0,276,277,
-        5,9,0,0,277,278,3,42,21,0,278,279,5,9,0,0,279,285,1,0,0,0,280,281,
-        5,10,0,0,281,285,3,42,21,7,282,283,5,43,0,0,283,285,3,42,21,2,284,
-        274,1,0,0,0,284,276,1,0,0,0,284,280,1,0,0,0,284,282,1,0,0,0,285,
-        305,1,0,0,0,286,287,10,5,0,0,287,288,7,0,0,0,288,304,3,42,21,6,289,
-        290,10,4,0,0,290,291,7,1,0,0,291,304,3,42,21,5,292,293,10,3,0,0,
-        293,294,7,2,0,0,294,304,3,42,21,4,295,296,10,1,0,0,296,297,7,3,0,
-        0,297,304,3,42,21,2,298,299,10,6,0,0,299,300,5,6,0,0,300,301,3,42,
-        21,0,301,302,5,7,0,0,302,304,1,0,0,0,303,286,1,0,0,0,303,289,1,0,
-        0,0,303,292,1,0,0,0,303,295,1,0,0,0,303,298,1,0,0,0,304,307,1,0,
-        0,0,305,303,1,0,0,0,305,306,1,0,0,0,306,43,1,0,0,0,307,305,1,0,0,
-        0,308,309,7,4,0,0,309,45,1,0,0,0,310,337,5,48,0,0,311,312,5,1,0,
-        0,312,313,3,42,21,0,313,314,5,2,0,0,314,337,1,0,0,0,315,316,5,48,
-        0,0,316,318,5,1,0,0,317,319,3,48,24,0,318,317,1,0,0,0,318,319,1,
-        0,0,0,319,320,1,0,0,0,320,337,5,2,0,0,321,337,3,50,25,0,322,337,
-        3,20,10,0,323,324,3,44,22,0,324,326,5,1,0,0,325,327,3,48,24,0,326,
-        325,1,0,0,0,326,327,1,0,0,0,327,328,1,0,0,0,328,329,5,2,0,0,329,
-        337,1,0,0,0,330,331,5,40,0,0,331,333,5,1,0,0,332,334,3,48,24,0,333,
-        332,1,0,0,0,333,334,1,0,0,0,334,335,1,0,0,0,335,337,5,2,0,0,336,
-        310,1,0,0,0,336,311,1,0,0,0,336,315,1,0,0,0,336,321,1,0,0,0,336,
-        322,1,0,0,0,336,323,1,0,0,0,336,330,1,0,0,0,337,47,1,0,0,0,338,343,
-        3,42,21,0,339,340,5,4,0,0,340,342,3,42,21,0,341,339,1,0,0,0,342,
-        345,1,0,0,0,343,341,1,0,0,0,343,344,1,0,0,0,344,49,1,0,0,0,345,343,
-        1,0,0,0,346,391,5,49,0,0,347,391,5,50,0,0,348,349,5,6,0,0,349,354,
-        3,42,21,0,350,351,5,4,0,0,351,353,3,42,21,0,352,350,1,0,0,0,353,
-        356,1,0,0,0,354,352,1,0,0,0,354,355,1,0,0,0,355,357,1,0,0,0,356,
-        354,1,0,0,0,357,358,5,7,0,0,358,391,1,0,0,0,359,360,5,6,0,0,360,
-        361,5,6,0,0,361,366,3,42,21,0,362,363,5,4,0,0,363,365,3,42,21,0,
-        364,362,1,0,0,0,365,368,1,0,0,0,366,364,1,0,0,0,366,367,1,0,0,0,
-        367,369,1,0,0,0,368,366,1,0,0,0,369,384,5,7,0,0,370,371,5,4,0,0,
-        371,372,5,6,0,0,372,377,3,42,21,0,373,374,5,4,0,0,374,376,3,42,21,
-        0,375,373,1,0,0,0,376,379,1,0,0,0,377,375,1,0,0,0,377,378,1,0,0,
-        0,378,380,1,0,0,0,379,377,1,0,0,0,380,381,5,7,0,0,381,383,1,0,0,
-        0,382,370,1,0,0,0,383,386,1,0,0,0,384,382,1,0,0,0,384,385,1,0,0,
-        0,385,387,1,0,0,0,386,384,1,0,0,0,387,388,5,7,0,0,388,391,1,0,0,
-        0,389,391,5,51,0,0,390,346,1,0,0,0,390,347,1,0,0,0,390,348,1,0,0,
-        0,390,359,1,0,0,0,390,389,1,0,0,0,391,51,1,0,0,0,40,55,61,70,82,
-        89,97,107,109,117,133,139,148,152,156,160,164,168,171,180,184,195,
-        205,207,217,247,257,269,284,303,305,318,326,333,336,343,354,366,
-        377,384,390
+        207,190,1,0,0,0,207,200,1,0,0,0,208,27,1,0,0,0,209,210,5,25,0,0,
+        210,211,3,42,21,0,211,212,5,26,0,0,212,213,5,21,0,0,213,217,3,6,
+        3,0,214,215,5,27,0,0,215,216,5,21,0,0,216,218,3,6,3,0,217,214,1,
+        0,0,0,217,218,1,0,0,0,218,29,1,0,0,0,219,220,5,28,0,0,220,221,5,
+        49,0,0,221,222,5,29,0,0,222,223,5,36,0,0,223,224,5,1,0,0,224,227,
+        3,42,21,0,225,226,5,4,0,0,226,228,3,42,21,0,227,225,1,0,0,0,227,
+        228,1,0,0,0,228,231,1,0,0,0,229,230,5,4,0,0,230,232,3,42,21,0,231,
+        229,1,0,0,0,231,232,1,0,0,0,232,233,1,0,0,0,233,234,5,2,0,0,234,
+        235,5,21,0,0,235,236,3,6,3,0,236,31,1,0,0,0,237,238,5,30,0,0,238,
+        239,3,42,21,0,239,240,5,21,0,0,240,241,3,6,3,0,241,33,1,0,0,0,242,
+        243,5,31,0,0,243,244,3,42,21,0,244,245,5,21,0,0,245,246,3,6,3,0,
+        246,35,1,0,0,0,247,248,5,33,0,0,248,249,3,48,24,0,249,37,1,0,0,0,
+        250,251,5,34,0,0,251,253,5,1,0,0,252,254,3,48,24,0,253,252,1,0,0,
+        0,253,254,1,0,0,0,254,255,1,0,0,0,255,256,5,2,0,0,256,39,1,0,0,0,
+        257,258,5,35,0,0,258,260,5,1,0,0,259,261,3,48,24,0,260,259,1,0,0,
+        0,260,261,1,0,0,0,261,262,1,0,0,0,262,263,5,2,0,0,263,41,1,0,0,0,
+        264,265,6,21,-1,0,265,275,3,46,23,0,266,267,5,9,0,0,267,268,3,42,
+        21,0,268,269,5,9,0,0,269,275,1,0,0,0,270,271,5,10,0,0,271,275,3,
+        42,21,7,272,273,5,44,0,0,273,275,3,42,21,2,274,264,1,0,0,0,274,266,
+        1,0,0,0,274,270,1,0,0,0,274,272,1,0,0,0,275,295,1,0,0,0,276,277,
+        10,5,0,0,277,278,7,0,0,0,278,294,3,42,21,6,279,280,10,4,0,0,280,
+        281,7,1,0,0,281,294,3,42,21,5,282,283,10,3,0,0,283,284,7,2,0,0,284,
+        294,3,42,21,4,285,286,10,1,0,0,286,287,7,3,0,0,287,294,3,42,21,2,
+        288,289,10,6,0,0,289,290,5,6,0,0,290,291,3,42,21,0,291,292,5,7,0,
+        0,292,294,1,0,0,0,293,276,1,0,0,0,293,279,1,0,0,0,293,282,1,0,0,
+        0,293,285,1,0,0,0,293,288,1,0,0,0,294,297,1,0,0,0,295,293,1,0,0,
+        0,295,296,1,0,0,0,296,43,1,0,0,0,297,295,1,0,0,0,298,299,7,4,0,0,
+        299,45,1,0,0,0,300,328,5,49,0,0,301,302,5,1,0,0,302,303,3,42,21,
+        0,303,304,5,2,0,0,304,328,1,0,0,0,305,306,5,49,0,0,306,308,5,1,0,
+        0,307,309,3,48,24,0,308,307,1,0,0,0,308,309,1,0,0,0,309,310,1,0,
+        0,0,310,328,5,2,0,0,311,328,3,50,25,0,312,328,3,20,10,0,313,314,
+        3,44,22,0,314,316,5,1,0,0,315,317,3,48,24,0,316,315,1,0,0,0,316,
+        317,1,0,0,0,317,318,1,0,0,0,318,319,5,2,0,0,319,328,1,0,0,0,320,
+        321,5,41,0,0,321,323,5,1,0,0,322,324,3,48,24,0,323,322,1,0,0,0,323,
+        324,1,0,0,0,324,325,1,0,0,0,325,328,5,2,0,0,326,328,3,40,20,0,327,
+        300,1,0,0,0,327,301,1,0,0,0,327,305,1,0,0,0,327,311,1,0,0,0,327,
+        312,1,0,0,0,327,313,1,0,0,0,327,320,1,0,0,0,327,326,1,0,0,0,328,
+        47,1,0,0,0,329,334,3,42,21,0,330,331,5,4,0,0,331,333,3,42,21,0,332,
+        330,1,0,0,0,333,336,1,0,0,0,334,332,1,0,0,0,334,335,1,0,0,0,335,
+        49,1,0,0,0,336,334,1,0,0,0,337,382,5,50,0,0,338,382,5,51,0,0,339,
+        340,5,6,0,0,340,345,3,42,21,0,341,342,5,4,0,0,342,344,3,42,21,0,
+        343,341,1,0,0,0,344,347,1,0,0,0,345,343,1,0,0,0,345,346,1,0,0,0,
+        346,348,1,0,0,0,347,345,1,0,0,0,348,349,5,7,0,0,349,382,1,0,0,0,
+        350,351,5,6,0,0,351,352,5,6,0,0,352,357,3,42,21,0,353,354,5,4,0,
+        0,354,356,3,42,21,0,355,353,1,0,0,0,356,359,1,0,0,0,357,355,1,0,
+        0,0,357,358,1,0,0,0,358,360,1,0,0,0,359,357,1,0,0,0,360,375,5,7,
+        0,0,361,362,5,4,0,0,362,363,5,6,0,0,363,368,3,42,21,0,364,365,5,
+        4,0,0,365,367,3,42,21,0,366,364,1,0,0,0,367,370,1,0,0,0,368,366,
+        1,0,0,0,368,369,1,0,0,0,369,371,1,0,0,0,370,368,1,0,0,0,371,372,
+        5,7,0,0,372,374,1,0,0,0,373,361,1,0,0,0,374,377,1,0,0,0,375,373,
+        1,0,0,0,375,376,1,0,0,0,376,378,1,0,0,0,377,375,1,0,0,0,378,379,
+        5,7,0,0,379,382,1,0,0,0,380,382,5,52,0,0,381,337,1,0,0,0,381,338,
+        1,0,0,0,381,339,1,0,0,0,381,350,1,0,0,0,381,380,1,0,0,0,382,51,1,
+        0,0,0,41,55,61,70,82,89,97,107,109,117,133,139,148,152,156,160,164,
+        168,171,180,184,195,205,207,217,227,231,253,260,274,293,295,308,
+        316,323,327,334,345,357,368,375,381
     ]
 
 class vecmatlangParser ( Parser ):
@@ -169,23 +166,24 @@ class vecmatlangParser ( Parser ):
     literalNames = [ "<INVALID>", "'('", "')'", "':'", "','", "'.'", "'['", 
                      "']'", "'='", "'|'", "'-'", "'*'", "'/'", "'+'", "'>'", 
                      "'<'", "'>='", "'<='", "'=='", "'!='", "<INVALID>", 
-                     "<INVALID>", "'INDENT'", "'DEDENT'", "'if'", "'then'", 
-                     "'else'", "'for'", "'in'", "'while'", "'until'", "'func'", 
-                     "'return'", "'write'", "'read'", "'range'", "'class'", 
-                     "'method'", "'continue'", "'exit'", "'len'", "'&&'", 
-                     "'||'", "'!'", "'int'", "'float'", "'vector'", "'matrix'" ]
+                     "<INVALID>", "'\\t'", "'<<INDENT>>'", "'<<DEDENT>>'", 
+                     "'if'", "'then'", "'else'", "'for'", "'in'", "'while'", 
+                     "'until'", "'func'", "'return'", "'write'", "'read'", 
+                     "'range'", "'class'", "'method'", "'continue'", "'exit'", 
+                     "'len'", "'&&'", "'||'", "'!'", "'int'", "'float'", 
+                     "'vector'", "'matrix'" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "WS", "NEWLINE", "INDENT", "DEDENT", "IF", "THEN", 
-                      "ELSE", "FOR", "IN", "WHILE", "UNTIL", "FUNC", "RETURN", 
-                      "WRITE", "READ", "RANGE", "CLASS", "METHOD", "CONTINUE", 
-                      "BREAK", "LEN", "AND", "OR", "NOT", "INT_TYPE", "FLOAT_TYPE", 
-                      "VECTOR", "MATRIX", "ID", "INT", "FLOAT", "STRING", 
-                      "COMMENT" ]
+                      "WS", "NEWLINE", "TAB", "INDENT", "DEDENT", "IF", 
+                      "THEN", "ELSE", "FOR", "IN", "WHILE", "UNTIL", "FUNC", 
+                      "RETURN", "WRITE", "READ", "RANGE", "CLASS", "METHOD", 
+                      "CONTINUE", "BREAK", "LEN", "AND", "OR", "NOT", "INT_TYPE", 
+                      "FLOAT_TYPE", "VECTOR", "MATRIX", "ID", "INT", "FLOAT", 
+                      "STRING", "COMMENT" ]
 
     RULE_program = 0
     RULE_functionDecl = 1
@@ -244,37 +242,38 @@ class vecmatlangParser ( Parser ):
     T__18=19
     WS=20
     NEWLINE=21
-    INDENT=22
-    DEDENT=23
-    IF=24
-    THEN=25
-    ELSE=26
-    FOR=27
-    IN=28
-    WHILE=29
-    UNTIL=30
-    FUNC=31
-    RETURN=32
-    WRITE=33
-    READ=34
-    RANGE=35
-    CLASS=36
-    METHOD=37
-    CONTINUE=38
-    BREAK=39
-    LEN=40
-    AND=41
-    OR=42
-    NOT=43
-    INT_TYPE=44
-    FLOAT_TYPE=45
-    VECTOR=46
-    MATRIX=47
-    ID=48
-    INT=49
-    FLOAT=50
-    STRING=51
-    COMMENT=52
+    TAB=22
+    INDENT=23
+    DEDENT=24
+    IF=25
+    THEN=26
+    ELSE=27
+    FOR=28
+    IN=29
+    WHILE=30
+    UNTIL=31
+    FUNC=32
+    RETURN=33
+    WRITE=34
+    READ=35
+    RANGE=36
+    CLASS=37
+    METHOD=38
+    CONTINUE=39
+    BREAK=40
+    LEN=41
+    AND=42
+    OR=43
+    NOT=44
+    INT_TYPE=45
+    FLOAT_TYPE=46
+    VECTOR=47
+    MATRIX=48
+    ID=49
+    INT=50
+    FLOAT=51
+    STRING=52
+    COMMENT=53
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -339,7 +338,7 @@ class vecmatlangParser ( Parser ):
             self.state = 55
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==31:
+            while _la==32:
                 self.state = 52
                 self.functionDecl()
                 self.state = 57
@@ -349,7 +348,7 @@ class vecmatlangParser ( Parser ):
             self.state = 61
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 4496828227651138) != 0):
+            while (((_la) & ~0x3f) == 0 and ((1 << _la) & 8993656453203522) != 0):
                 self.state = 58
                 self.statement()
                 self.state = 63
@@ -427,7 +426,7 @@ class vecmatlangParser ( Parser ):
             self.state = 70
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==48:
+            if _la==49:
                 self.state = 69
                 self.parameterList()
 
@@ -570,7 +569,7 @@ class vecmatlangParser ( Parser ):
                 self.state = 89 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 4496828227651138) != 0)):
+                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 8993656453203522) != 0)):
                     break
 
             self.state = 91
@@ -644,7 +643,7 @@ class vecmatlangParser ( Parser ):
             self.state = 97
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==48:
+            if _la==49:
                 self.state = 96
                 self.parameterList()
 
@@ -729,11 +728,11 @@ class vecmatlangParser ( Parser ):
                 self.state = 107
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
-                if token in [1, 6, 9, 10, 21, 24, 27, 29, 30, 32, 33, 34, 36, 38, 39, 40, 43, 44, 45, 46, 47, 48, 49, 50, 51]:
+                if token in [1, 6, 9, 10, 21, 25, 28, 30, 31, 33, 34, 35, 37, 39, 40, 41, 44, 45, 46, 47, 48, 49, 50, 51, 52]:
                     self.state = 105
                     self.statement()
                     pass
-                elif token in [37]:
+                elif token in [38]:
                     self.state = 106
                     self.methodDecl()
                     pass
@@ -743,7 +742,7 @@ class vecmatlangParser ( Parser ):
                 self.state = 109 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 4496965666604610) != 0)):
+                if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & 8993931331110466) != 0)):
                     break
 
             self.state = 111
@@ -817,7 +816,7 @@ class vecmatlangParser ( Parser ):
             self.state = 117
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==48:
+            if _la==49:
                 self.state = 116
                 self.parameterList()
 
@@ -948,7 +947,7 @@ class vecmatlangParser ( Parser ):
             self.state = 133
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 4495903045977666) != 0):
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 8991840451692098) != 0):
                 self.state = 132
                 self.argumentList()
 
@@ -1574,7 +1573,7 @@ class vecmatlangParser ( Parser ):
             self.state = 217
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            if _la==26:
+            if _la==27:
                 self.state = 214
                 self.match(vecmatlangParser.ELSE)
                 self.state = 215
@@ -1649,6 +1648,7 @@ class vecmatlangParser ( Parser ):
 
         localctx = vecmatlangParser.ForStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 30, self.RULE_forStatement)
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 219
@@ -1663,15 +1663,31 @@ class vecmatlangParser ( Parser ):
             self.match(vecmatlangParser.T__0)
             self.state = 224
             self.expression(0)
-            self.state = 225
-            self.match(vecmatlangParser.T__3)
-            self.state = 226
-            self.expression(0)
             self.state = 227
+            self._errHandler.sync(self)
+            la_ = self._interp.adaptivePredict(self._input,24,self._ctx)
+            if la_ == 1:
+                self.state = 225
+                self.match(vecmatlangParser.T__3)
+                self.state = 226
+                self.expression(0)
+
+
+            self.state = 231
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la==4:
+                self.state = 229
+                self.match(vecmatlangParser.T__3)
+                self.state = 230
+                self.expression(0)
+
+
+            self.state = 233
             self.match(vecmatlangParser.T__1)
-            self.state = 228
+            self.state = 234
             self.match(vecmatlangParser.NEWLINE)
-            self.state = 229
+            self.state = 235
             self.block()
         except RecognitionException as re:
             localctx.exception = re
@@ -1729,13 +1745,13 @@ class vecmatlangParser ( Parser ):
         self.enterRule(localctx, 32, self.RULE_whileStatement)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 231
+            self.state = 237
             self.match(vecmatlangParser.WHILE)
-            self.state = 232
+            self.state = 238
             self.expression(0)
-            self.state = 233
+            self.state = 239
             self.match(vecmatlangParser.NEWLINE)
-            self.state = 234
+            self.state = 240
             self.block()
         except RecognitionException as re:
             localctx.exception = re
@@ -1793,13 +1809,13 @@ class vecmatlangParser ( Parser ):
         self.enterRule(localctx, 34, self.RULE_untilStatement)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 236
+            self.state = 242
             self.match(vecmatlangParser.UNTIL)
-            self.state = 237
+            self.state = 243
             self.expression(0)
-            self.state = 238
+            self.state = 244
             self.match(vecmatlangParser.NEWLINE)
-            self.state = 239
+            self.state = 245
             self.block()
         except RecognitionException as re:
             localctx.exception = re
@@ -1820,11 +1836,8 @@ class vecmatlangParser ( Parser ):
         def RETURN(self):
             return self.getToken(vecmatlangParser.RETURN, 0)
 
-        def expression(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(vecmatlangParser.ExpressionContext)
-            else:
-                return self.getTypedRuleContext(vecmatlangParser.ExpressionContext,i)
+        def argumentList(self):
+            return self.getTypedRuleContext(vecmatlangParser.ArgumentListContext,0)
 
 
         def getRuleIndex(self):
@@ -1851,25 +1864,12 @@ class vecmatlangParser ( Parser ):
 
         localctx = vecmatlangParser.ReturnStatementContext(self, self._ctx, self.state)
         self.enterRule(localctx, 36, self.RULE_returnStatement)
-        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 241
-            self.match(vecmatlangParser.RETURN)
-            self.state = 242
-            self.expression(0)
             self.state = 247
-            self._errHandler.sync(self)
-            _la = self._input.LA(1)
-            while _la==4:
-                self.state = 243
-                self.match(vecmatlangParser.T__3)
-                self.state = 244
-                self.expression(0)
-                self.state = 249
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
-
+            self.match(vecmatlangParser.RETURN)
+            self.state = 248
+            self.argumentList()
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)
@@ -1889,11 +1889,8 @@ class vecmatlangParser ( Parser ):
         def WRITE(self):
             return self.getToken(vecmatlangParser.WRITE, 0)
 
-        def expression(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(vecmatlangParser.ExpressionContext)
-            else:
-                return self.getTypedRuleContext(vecmatlangParser.ExpressionContext,i)
+        def argumentList(self):
+            return self.getTypedRuleContext(vecmatlangParser.ArgumentListContext,0)
 
 
         def getRuleIndex(self):
@@ -1927,21 +1924,15 @@ class vecmatlangParser ( Parser ):
             self.match(vecmatlangParser.WRITE)
             self.state = 251
             self.match(vecmatlangParser.T__0)
-            self.state = 252
-            self.expression(0)
-            self.state = 257
+            self.state = 253
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==4:
-                self.state = 253
-                self.match(vecmatlangParser.T__3)
-                self.state = 254
-                self.expression(0)
-                self.state = 259
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 8991840451692098) != 0):
+                self.state = 252
+                self.argumentList()
 
-            self.state = 260
+
+            self.state = 255
             self.match(vecmatlangParser.T__1)
         except RecognitionException as re:
             localctx.exception = re
@@ -1962,11 +1953,8 @@ class vecmatlangParser ( Parser ):
         def READ(self):
             return self.getToken(vecmatlangParser.READ, 0)
 
-        def expression(self, i:int=None):
-            if i is None:
-                return self.getTypedRuleContexts(vecmatlangParser.ExpressionContext)
-            else:
-                return self.getTypedRuleContext(vecmatlangParser.ExpressionContext,i)
+        def argumentList(self):
+            return self.getTypedRuleContext(vecmatlangParser.ArgumentListContext,0)
 
 
         def getRuleIndex(self):
@@ -1996,25 +1984,19 @@ class vecmatlangParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 262
+            self.state = 257
             self.match(vecmatlangParser.READ)
-            self.state = 263
+            self.state = 258
             self.match(vecmatlangParser.T__0)
-            self.state = 264
-            self.expression(0)
-            self.state = 269
+            self.state = 260
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==4:
-                self.state = 265
-                self.match(vecmatlangParser.T__3)
-                self.state = 266
-                self.expression(0)
-                self.state = 271
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
+            if (((_la) & ~0x3f) == 0 and ((1 << _la) & 8991840451692098) != 0):
+                self.state = 259
+                self.argumentList()
 
-            self.state = 272
+
+            self.state = 262
             self.match(vecmatlangParser.T__1)
         except RecognitionException as re:
             localctx.exception = re
@@ -2298,152 +2280,152 @@ class vecmatlangParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 284
+            self.state = 274
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [1, 6, 40, 44, 45, 46, 47, 48, 49, 50, 51]:
+            if token in [1, 6, 35, 41, 45, 46, 47, 48, 49, 50, 51, 52]:
                 localctx = vecmatlangParser.PrimaryExprContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
 
-                self.state = 275
+                self.state = 265
                 self.primaryExpression()
                 pass
             elif token in [9]:
                 localctx = vecmatlangParser.NormExprContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 276
+                self.state = 266
                 self.match(vecmatlangParser.T__8)
-                self.state = 277
+                self.state = 267
                 self.expression(0)
-                self.state = 278
+                self.state = 268
                 self.match(vecmatlangParser.T__8)
                 pass
             elif token in [10]:
                 localctx = vecmatlangParser.UnaryMinusExprContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 280
+                self.state = 270
                 self.match(vecmatlangParser.T__9)
-                self.state = 281
+                self.state = 271
                 self.expression(7)
                 pass
-            elif token in [43]:
+            elif token in [44]:
                 localctx = vecmatlangParser.NotExprContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
-                self.state = 282
+                self.state = 272
                 self.match(vecmatlangParser.NOT)
-                self.state = 283
+                self.state = 273
                 self.expression(2)
                 pass
             else:
                 raise NoViableAltException(self)
 
             self._ctx.stop = self._input.LT(-1)
-            self.state = 305
+            self.state = 295
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,29,self._ctx)
+            _alt = self._interp.adaptivePredict(self._input,30,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
                     if self._parseListeners is not None:
                         self.triggerExitRuleEvent()
                     _prevctx = localctx
-                    self.state = 303
+                    self.state = 293
                     self._errHandler.sync(self)
-                    la_ = self._interp.adaptivePredict(self._input,28,self._ctx)
+                    la_ = self._interp.adaptivePredict(self._input,29,self._ctx)
                     if la_ == 1:
                         localctx = vecmatlangParser.MulDivExprContext(self, vecmatlangParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 286
+                        self.state = 276
                         if not self.precpred(self._ctx, 5):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
-                        self.state = 287
+                        self.state = 277
                         _la = self._input.LA(1)
                         if not(_la==11 or _la==12):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 288
+                        self.state = 278
                         self.expression(6)
                         pass
 
                     elif la_ == 2:
                         localctx = vecmatlangParser.AddSubExprContext(self, vecmatlangParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 289
+                        self.state = 279
                         if not self.precpred(self._ctx, 4):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 4)")
-                        self.state = 290
+                        self.state = 280
                         _la = self._input.LA(1)
                         if not(_la==10 or _la==13):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 291
+                        self.state = 281
                         self.expression(5)
                         pass
 
                     elif la_ == 3:
                         localctx = vecmatlangParser.ComparisonExprContext(self, vecmatlangParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 292
+                        self.state = 282
                         if not self.precpred(self._ctx, 3):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
-                        self.state = 293
+                        self.state = 283
                         _la = self._input.LA(1)
                         if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 1032192) != 0)):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 294
+                        self.state = 284
                         self.expression(4)
                         pass
 
                     elif la_ == 4:
                         localctx = vecmatlangParser.BinlogicExprContext(self, vecmatlangParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 295
+                        self.state = 285
                         if not self.precpred(self._ctx, 1):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 1)")
-                        self.state = 296
+                        self.state = 286
                         _la = self._input.LA(1)
-                        if not(_la==41 or _la==42):
+                        if not(_la==42 or _la==43):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
                             self.consume()
-                        self.state = 297
+                        self.state = 287
                         self.expression(2)
                         pass
 
                     elif la_ == 5:
                         localctx = vecmatlangParser.IndexExprContext(self, vecmatlangParser.ExpressionContext(self, _parentctx, _parentState))
                         self.pushNewRecursionContext(localctx, _startState, self.RULE_expression)
-                        self.state = 298
+                        self.state = 288
                         if not self.precpred(self._ctx, 6):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 6)")
-                        self.state = 299
+                        self.state = 289
                         self.match(vecmatlangParser.T__5)
-                        self.state = 300
+                        self.state = 290
                         self.expression(0)
-                        self.state = 301
+                        self.state = 291
                         self.match(vecmatlangParser.T__6)
                         pass
 
              
-                self.state = 307
+                self.state = 297
                 self._errHandler.sync(self)
-                _alt = self._interp.adaptivePredict(self._input,29,self._ctx)
+                _alt = self._interp.adaptivePredict(self._input,30,self._ctx)
 
         except RecognitionException as re:
             localctx.exception = re
@@ -2500,9 +2482,9 @@ class vecmatlangParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 308
+            self.state = 298
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 263882790666240) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 527765581332480) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -2613,6 +2595,31 @@ class vecmatlangParser ( Parser ):
                 return visitor.visitChildren(self)
 
 
+    class ReadExprContext(PrimaryExpressionContext):
+
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a vecmatlangParser.PrimaryExpressionContext
+            super().__init__(parser)
+            self.copyFrom(ctx)
+
+        def readStatement(self):
+            return self.getTypedRuleContext(vecmatlangParser.ReadStatementContext,0)
+
+
+        def enterRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "enterReadExpr" ):
+                listener.enterReadExpr(self)
+
+        def exitRule(self, listener:ParseTreeListener):
+            if hasattr( listener, "exitReadExpr" ):
+                listener.exitReadExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitReadExpr" ):
+                return visitor.visitReadExpr(self)
+            else:
+                return visitor.visitChildren(self)
+
+
     class FuncCallExprContext(PrimaryExpressionContext):
 
         def __init__(self, parser, ctx:ParserRuleContext): # actually a vecmatlangParser.PrimaryExpressionContext
@@ -2699,96 +2706,103 @@ class vecmatlangParser ( Parser ):
         self.enterRule(localctx, 46, self.RULE_primaryExpression)
         self._la = 0 # Token type
         try:
-            self.state = 336
+            self.state = 327
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,33,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,34,self._ctx)
             if la_ == 1:
                 localctx = vecmatlangParser.IdExprContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 310
+                self.state = 300
                 self.match(vecmatlangParser.ID)
                 pass
 
             elif la_ == 2:
                 localctx = vecmatlangParser.ParenExprContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 311
+                self.state = 301
                 self.match(vecmatlangParser.T__0)
-                self.state = 312
+                self.state = 302
                 self.expression(0)
-                self.state = 313
+                self.state = 303
                 self.match(vecmatlangParser.T__1)
                 pass
 
             elif la_ == 3:
                 localctx = vecmatlangParser.FuncCallExprContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
-                self.state = 315
+                self.state = 305
                 self.match(vecmatlangParser.ID)
-                self.state = 316
+                self.state = 306
                 self.match(vecmatlangParser.T__0)
-                self.state = 318
+                self.state = 308
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 4495903045977666) != 0):
-                    self.state = 317
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 8991840451692098) != 0):
+                    self.state = 307
                     self.argumentList()
 
 
-                self.state = 320
+                self.state = 310
                 self.match(vecmatlangParser.T__1)
                 pass
 
             elif la_ == 4:
                 localctx = vecmatlangParser.LiteralExprContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
-                self.state = 321
+                self.state = 311
                 self.literal()
                 pass
 
             elif la_ == 5:
                 localctx = vecmatlangParser.IdExprContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
-                self.state = 322
+                self.state = 312
                 self.var()
                 pass
 
             elif la_ == 6:
                 localctx = vecmatlangParser.TypeExprContext(self, localctx)
                 self.enterOuterAlt(localctx, 6)
-                self.state = 323
+                self.state = 313
                 self.type_()
-                self.state = 324
+                self.state = 314
                 self.match(vecmatlangParser.T__0)
-                self.state = 326
+                self.state = 316
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 4495903045977666) != 0):
-                    self.state = 325
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 8991840451692098) != 0):
+                    self.state = 315
                     self.argumentList()
 
 
-                self.state = 328
+                self.state = 318
                 self.match(vecmatlangParser.T__1)
                 pass
 
             elif la_ == 7:
                 localctx = vecmatlangParser.LenExprContext(self, localctx)
                 self.enterOuterAlt(localctx, 7)
-                self.state = 330
+                self.state = 320
                 self.match(vecmatlangParser.LEN)
-                self.state = 331
+                self.state = 321
                 self.match(vecmatlangParser.T__0)
-                self.state = 333
+                self.state = 323
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 4495903045977666) != 0):
-                    self.state = 332
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & 8991840451692098) != 0):
+                    self.state = 322
                     self.argumentList()
 
 
-                self.state = 335
+                self.state = 325
                 self.match(vecmatlangParser.T__1)
+                pass
+
+            elif la_ == 8:
+                localctx = vecmatlangParser.ReadExprContext(self, localctx)
+                self.enterOuterAlt(localctx, 8)
+                self.state = 326
+                self.readStatement()
                 pass
 
 
@@ -2842,17 +2856,17 @@ class vecmatlangParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 338
+            self.state = 329
             self.expression(0)
-            self.state = 343
+            self.state = 334
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==4:
-                self.state = 339
+                self.state = 330
                 self.match(vecmatlangParser.T__3)
-                self.state = 340
+                self.state = 331
                 self.expression(0)
-                self.state = 345
+                self.state = 336
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
@@ -3017,105 +3031,105 @@ class vecmatlangParser ( Parser ):
         self.enterRule(localctx, 50, self.RULE_literal)
         self._la = 0 # Token type
         try:
-            self.state = 390
+            self.state = 381
             self._errHandler.sync(self)
-            la_ = self._interp.adaptivePredict(self._input,39,self._ctx)
+            la_ = self._interp.adaptivePredict(self._input,40,self._ctx)
             if la_ == 1:
                 localctx = vecmatlangParser.IntLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
-                self.state = 346
+                self.state = 337
                 self.match(vecmatlangParser.INT)
                 pass
 
             elif la_ == 2:
                 localctx = vecmatlangParser.FloatLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
-                self.state = 347
+                self.state = 338
                 self.match(vecmatlangParser.FLOAT)
                 pass
 
             elif la_ == 3:
                 localctx = vecmatlangParser.VectorLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 3)
-                self.state = 348
+                self.state = 339
                 self.match(vecmatlangParser.T__5)
-                self.state = 349
+                self.state = 340
                 self.expression(0)
-                self.state = 354
+                self.state = 345
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while _la==4:
-                    self.state = 350
+                    self.state = 341
                     self.match(vecmatlangParser.T__3)
-                    self.state = 351
+                    self.state = 342
                     self.expression(0)
-                    self.state = 356
+                    self.state = 347
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
-                self.state = 357
+                self.state = 348
                 self.match(vecmatlangParser.T__6)
                 pass
 
             elif la_ == 4:
                 localctx = vecmatlangParser.MatrixLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 4)
-                self.state = 359
+                self.state = 350
                 self.match(vecmatlangParser.T__5)
-                self.state = 360
+                self.state = 351
                 self.match(vecmatlangParser.T__5)
-                self.state = 361
+                self.state = 352
                 self.expression(0)
-                self.state = 366
+                self.state = 357
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 while _la==4:
-                    self.state = 362
+                    self.state = 353
                     self.match(vecmatlangParser.T__3)
+                    self.state = 354
+                    self.expression(0)
+                    self.state = 359
+                    self._errHandler.sync(self)
+                    _la = self._input.LA(1)
+
+                self.state = 360
+                self.match(vecmatlangParser.T__6)
+                self.state = 375
+                self._errHandler.sync(self)
+                _la = self._input.LA(1)
+                while _la==4:
+                    self.state = 361
+                    self.match(vecmatlangParser.T__3)
+                    self.state = 362
+                    self.match(vecmatlangParser.T__5)
                     self.state = 363
                     self.expression(0)
                     self.state = 368
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-
-                self.state = 369
-                self.match(vecmatlangParser.T__6)
-                self.state = 384
-                self._errHandler.sync(self)
-                _la = self._input.LA(1)
-                while _la==4:
-                    self.state = 370
-                    self.match(vecmatlangParser.T__3)
-                    self.state = 371
-                    self.match(vecmatlangParser.T__5)
-                    self.state = 372
-                    self.expression(0)
-                    self.state = 377
-                    self._errHandler.sync(self)
-                    _la = self._input.LA(1)
                     while _la==4:
-                        self.state = 373
+                        self.state = 364
                         self.match(vecmatlangParser.T__3)
-                        self.state = 374
+                        self.state = 365
                         self.expression(0)
-                        self.state = 379
+                        self.state = 370
                         self._errHandler.sync(self)
                         _la = self._input.LA(1)
 
-                    self.state = 380
+                    self.state = 371
                     self.match(vecmatlangParser.T__6)
-                    self.state = 386
+                    self.state = 377
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
 
-                self.state = 387
+                self.state = 378
                 self.match(vecmatlangParser.T__6)
                 pass
 
             elif la_ == 5:
                 localctx = vecmatlangParser.StringLiteralContext(self, localctx)
                 self.enterOuterAlt(localctx, 5)
-                self.state = 389
+                self.state = 380
                 self.match(vecmatlangParser.STRING)
                 pass
 
