@@ -13,15 +13,30 @@ EXAMPLES_NAMES = [
     'example1.vml',
     'example2.vml',
     'example3.vml',
+    'example4.vml',
     'wrongsyntax_example1.vml',
-    'wrongsyntax_example2.vml',
+    'wrongsyntax_example2.vml',    
+    'wrongsyntax_example3.vml',    
 ]
+
+# class CustomInputStream(InputStream):
+#     def __init__(self, data):
+#         # Удаляем комментарии перед передачей в лексер
+#         lines = data.split('\n')
+#         cleaned_lines = []
+#         for line in lines:
+#             if '#' in line:
+#                 line = line.split('#')[0].rstrip()
+#             cleaned_lines.append(line)
+#         super().__init__('\n'.join(cleaned_lines))
 
 def read_vml(file_path: str) -> str | None:
     try:
         with open(file_path, 'r') as vml: return vml.read()
     except Exception as e: 
         print(f'Ошибка чтения файла {file_path}: {e}')
+        print('Детали:')
+        traceback.print_exc()
 
 
 def get_analyze_tools(code: str) -> tuple[vecmatlangLexer, vecmatlangParser, ErrorListener]:
@@ -64,7 +79,7 @@ def analyze(file_path: str):
     except Exception as e: 
 
         print(f'Неизвестная ошибка при анализе {file_path}: {e}')
-        print('Traceback:')
+        print('Детали:')
         traceback.print_exc()
         
 

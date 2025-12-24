@@ -1,5 +1,5 @@
 # объявление подпрограммы 
-func factorial(n):
+func factorial(n): 
     result = 1
     for i in range(1, n)
         result = result * i

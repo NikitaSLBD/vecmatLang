@@ -1,0 +1,15 @@
+class VectorPair(v1, v2): # объявление класса с параметрами инициализации
+
+    # объявление и инициализация полей класса
+    vec1 = v1
+    vec2 = v2
+
+    method cos_similarity(): # объявление метода класса, позволяет обращаться к полям класса
+        vec_product = vec1 * vec2
+        norm_product = |vec1| * |vec2|
+        return vec_product / norm_product
+
+vec_pair = VectorPair([1, 2, 3], [3, 2, 1]) # инициализация класса
+
+# обращения к полям и методам класса извне
+write("Косинусное сходство для векторов: ", vec_pair.vec1, "и ", vec_pair.vec2, "это ", vec_pair.cos_similarity())

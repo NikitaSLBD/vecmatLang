@@ -1,17 +1,17 @@
 grammar vecmatlang;
 
 // Parser
-program: functionDecl* statement* EOF;
+program: NEWLINE* functionDecl* statement* EOF;
 
-functionDecl: FUNC ID '(' parameterList? ')' ':' NEWLINE block;
+functionDecl: FUNC ID '(' parameterList? ')' ':' NEWLINE+ block;
 parameterList: ID (',' ID)*;
 
 block: INDENT statement+ DEDENT;
 
-classDecl: CLASS ID '(' parameterList? ')' ':' NEWLINE classBody;
+classDecl: CLASS ID '(' parameterList? ')' ':' NEWLINE+ classBody;
 classBody: INDENT (statement | methodDecl)+ DEDENT;
 
-methodDecl: METHOD ID '(' parameterList? ')' ':' NEWLINE block;
+methodDecl: METHOD ID '(' parameterList? ')' ':' NEWLINE+ block;
 
 fieldAppeal: ID '.' ID;
 methodAppeal: ID '.' ID '(' argumentList? ')';
@@ -30,6 +30,7 @@ statement
     | CONTINUE NEWLINE?
     | BREAK NEWLINE?
     | NEWLINE
+    | COMMENT
     ;
 
 var 
@@ -86,6 +87,8 @@ primaryExpression
     : ID                                                #idExpr
     |'(' expression ')'                                 #parenExpr
     | ID '(' argumentList? ')'                          #funcCallExpr
+    | fieldAppeal                                       #fieldExpr
+    | methodAppeal                                      #methodExpr
     | literal                                           #literalExpr
     | var                                               #idExpr
     | type '(' argumentList? ')'                        #typeExpr

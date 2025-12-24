@@ -9,7 +9,7 @@ class SyntaxErrorListener(ErrorListener):
     def syntaxError(self, recognizer, offendingSymbol, line, column, msg, e):
         error_info = {
             'line': line,
-            'column': column + 1,
+            'column': column,
             'msg': msg,
             'offending_symbol': offendingSymbol.text if offendingSymbol else None
         }
