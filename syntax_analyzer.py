@@ -19,18 +19,9 @@ EXAMPLES_NAMES = [
     'wrongsyntax_example3.vml',    
 ]
 
-# class CustomInputStream(InputStream):
-#     def __init__(self, data):
-#         # Удаляем комментарии перед передачей в лексер
-#         lines = data.split('\n')
-#         cleaned_lines = []
-#         for line in lines:
-#             if '#' in line:
-#                 line = line.split('#')[0].rstrip()
-#             cleaned_lines.append(line)
-#         super().__init__('\n'.join(cleaned_lines))
 
 def read_vml(file_path: str) -> str | None:
+
     try:
         with open(file_path, 'r') as vml: return vml.read()
     except Exception as e: 
@@ -39,7 +30,7 @@ def read_vml(file_path: str) -> str | None:
         traceback.print_exc()
 
 
-def get_analyze_tools(code: str) -> tuple[vecmatlangLexer, vecmatlangParser, ErrorListener]:
+def get_analyze_tools(code: str, error_listener=None) -> tuple[vecmatlangLexer, vecmatlangParser, ErrorListener]:
 
     # создаем потоки входа и токенов вместе с лексером и парсером
     stream = InputStream(code)
@@ -47,12 +38,13 @@ def get_analyze_tools(code: str) -> tuple[vecmatlangLexer, vecmatlangParser, Err
     tokens_stream = CommonTokenStream(lexer)
     parser = vecmatlangParser(tokens_stream)
 
-    # добавляем свой слушатель ошибок в лексер и парсер и удаляем слушатель ошибок по умолчанию
-    error_listener = SyntaxErrorListener() # кастомный слушатель ошибок для лучшего контроля их вывода
+    # добавляем свой слушатель ошибок, если он есть, в лексер и парсер и удаляем слушатель ошибок по умолчанию
     lexer.removeErrorListeners()
     parser.removeErrorListeners()
-    lexer.addErrorListener(error_listener)
-    parser.addErrorListener(error_listener)
+
+    if error_listener:
+        lexer.addErrorListener(error_listener)
+        parser.addErrorListener(error_listener)
 
     return lexer, parser, error_listener
 
@@ -62,7 +54,7 @@ def analyze(file_path: str):
 
     if not code: print('Анализ провален из-за ошибки чтения файла, возможно файл примера пустой')
 
-    lexer, parser, error_listener = get_analyze_tools(code)
+    lexer, parser, error_listener = get_analyze_tools(code, SyntaxErrorListener())
     
     try:
 
@@ -74,7 +66,7 @@ def analyze(file_path: str):
             print(f"Анализ {file_path} завершен успешно. Синтаксических ошибок не обнаружено.")
         else:
             error_listener.print_errors()
-            print(f"\nАнализ {file_path} завершен успешно. Обнаружены синтаксические ошибки.")
+            print(f"Анализ {file_path} завершен успешно. Обнаружены синтаксические ошибки.")
 
     except Exception as e: 
 
@@ -89,5 +81,5 @@ if __name__ == "__main__":
 
     for file_path in pathes: 
 
-        print(f'Начало анализа {file_path}')
+        print(f'\nНачало анализа {file_path}')
         analyze(file_path)

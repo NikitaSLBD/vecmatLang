@@ -27,10 +27,10 @@ class SyntaxErrorListener(ErrorListener):
             print("Синтаксических ошибок не обнаружено.")
             return
         
-        print(f"\nОбнаружено синтаксических ошибок: {self.error_count}")
+        print(f"Обнаружено синтаксических ошибок: {self.error_count}")
         
         for i, error in enumerate(self.errors, 1):
-            print(f"\nОшибка #{i}:")
+            print(f"Ошибка #{i}:")
             print(f"  Строка: {error['line']}, Колонка: {error['column']}")
             print(f"  Сообщение: {error['msg']}")
             if error['offending_symbol']:

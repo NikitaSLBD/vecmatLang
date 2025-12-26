@@ -164,18 +164,18 @@ class vecmatlangVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by vecmatlangParser#idExpr.
-    def visitIdExpr(self, ctx:vecmatlangParser.IdExprContext):
+    # Visit a parse tree produced by vecmatlangParser#funcCallExpr.
+    def visitFuncCallExpr(self, ctx:vecmatlangParser.FuncCallExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by vecmatlangParser#varExpr.
+    def visitVarExpr(self, ctx:vecmatlangParser.VarExprContext):
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by vecmatlangParser#parenExpr.
     def visitParenExpr(self, ctx:vecmatlangParser.ParenExprContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by vecmatlangParser#funcCallExpr.
-    def visitFuncCallExpr(self, ctx:vecmatlangParser.FuncCallExprContext):
         return self.visitChildren(ctx)
 
 

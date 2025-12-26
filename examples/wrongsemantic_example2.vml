@@ -1,0 +1,4 @@
+func g(a, b):
+    return a + 7 + b
+
+n = g(8)

@@ -84,13 +84,12 @@ type
     ;
 
 primaryExpression
-    : ID                                                #idExpr
+    : ID '(' argumentList? ')'                          #funcCallExpr
+    | var                                               #varExpr
     |'(' expression ')'                                 #parenExpr
-    | ID '(' argumentList? ')'                          #funcCallExpr
     | fieldAppeal                                       #fieldExpr
     | methodAppeal                                      #methodExpr
     | literal                                           #literalExpr
-    | var                                               #idExpr
     | type '(' argumentList? ')'                        #typeExpr
     | LEN '(' argumentList? ')'                         #lenExpr
     | readStatement                                     #readExpr
