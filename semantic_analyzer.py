@@ -17,7 +17,8 @@ EXAMPLES_NAMES = [
     'example3.vml',
     'example4.vml',
     'wrongsemantic_example1.vml',
-    'wrongsemantic_example2.vml'
+    'wrongsemantic_example2.vml',
+    'wrongsemantic_example3.vml'
 ]
 
 # Типы данных
@@ -44,12 +45,13 @@ class Type(Enum):
         return mapping.get(token_type, Type.UNKNOWN)
 
 class Symbol:
-    def __init__(self, name: str, symbol_type: Type, line: int = 0, column: int = 0):
-        self.name = name
-        self.type = symbol_type
-        self.line = line
-        self.column = column
-        self.is_initialized = False
+    def __init__(self, name: str, symbol_type: Type, line: int = 0, column: int = 0, class_ref: str=None):
+        self.name: str = name
+        self.type: Type = symbol_type
+        self.line: int = line
+        self.column: int= column
+        self.is_initialized: bool = False
+        self.class_ref: str = class_ref
         
     def __str__(self):
         return f"{self.name}: {self.type.value}"
@@ -58,9 +60,9 @@ class FunctionSymbol(Symbol):
     def __init__(self, name: str, return_type: Type, params: List[Type], 
                  line: int = 0, column: int = 0, is_method: bool = False):
         super().__init__(name, return_type, line, column)
-        self.params = params  # List of types
-        self.is_method = is_method
-        self.overloads = [params]  # Первая сигнатура сразу добавляется в overloads
+        self.params: List[Type] = params  # List of types
+        self.is_method: bool = is_method
+        self.overloads: List[List[Type]]= [params]  # Первая сигнатура сразу добавляется в overloads
         
     def add_overload(self, params: List[Type]):
         """Добавить перегрузку функции"""
@@ -94,7 +96,11 @@ class ClassSymbol(Symbol):
         self.fields: Dict[str, Symbol] = {}
         self.methods: Dict[str, FunctionSymbol] = {}
         self.static_funcs: Dict[str, FunctionSymbol] = {}
+        self.constructor_params: List[str] = []
         
+    def add_constructor_param(self, name: str):
+        self.constructor_params.append(name)
+
     def add_field(self, name: str, field_type: Type, line: int, column: int):
         self.fields[name] = Symbol(name, field_type, line, column)
         
@@ -120,6 +126,8 @@ class SemanticAnalyzer(vecmatlangListener):
         self.in_class_body = False
         self.in_method = False  # Новый флаг: внутри метода класса
         self.class_params = {}  # Параметры текущего класса
+        self.last_constructor_call = None
+
 
         self.in_for_loop = False 
         self.for_loop_vars = []
@@ -175,7 +183,7 @@ class SemanticAnalyzer(vecmatlangListener):
     
     def enterFunctionDecl(self, ctx: vecmatlangParser.FunctionDeclContext):
 
-        print(f"DEBUG: Начало объявления функции {ctx.ID().getText()} на строке {ctx.start.line}")
+#         print(f"DEBUG: Начало объявления функции {ctx.ID().getText()} на строке {ctx.start.line}")
 
         func_name = ctx.ID().getText()
         line = ctx.start.line
@@ -210,7 +218,7 @@ class SemanticAnalyzer(vecmatlangListener):
             func_sym = FunctionSymbol(func_name, return_type, params, line, column)
             self.symbol_table[func_name] = func_sym
         
-            print(f'DEBUG: Функция {func_name} с аргументами {params} была добавлена в таблицу символов')
+#             print(f'DEBUG: Функция {func_name} с аргументами {params} была добавлена в таблицу символов')
 
         # Устанавливаем текущую функцию только если func_sym был создан
         if func_sym:
@@ -247,7 +255,9 @@ class SemanticAnalyzer(vecmatlangListener):
         self.current_class = class_sym
         self.in_class_body = True
 
-        print(f'DEBUG: Класс {class_name} был добавлена в таблицу символов')
+#         print(f'DEBUG: Класс {class_name} был добавлен в таблицу символов')
+
+#         print(f'DEBUG: {self.symbol_table}')
         
         # Сохраняем параметры класса
         self.class_params = {}
@@ -255,8 +265,9 @@ class SemanticAnalyzer(vecmatlangListener):
         if param_list:
             for param in param_list.ID():
                 param_name = param.getText()
-                # Параметры класса будут доступны только при инициализации полей
                 self.class_params[param_name] = Type.UNKNOWN
+                # Сохраняем в классе
+                class_sym.add_constructor_param(param_name)
         
         # Входим в область видимости класса (для инициализации полей)
         self._enter_scope()
@@ -269,10 +280,13 @@ class SemanticAnalyzer(vecmatlangListener):
         
         # Создаем неявный конструктор
         constructor_params = list(self.class_params.keys())
-        constructor = FunctionSymbol(class_name, Type.CLASS, 
+        constructor_name = f'{class_name}_constructor'
+        constructor = FunctionSymbol(constructor_name , Type.CLASS, 
                                     [Type.UNKNOWN] * len(constructor_params),
                                     line, column)
-        self.symbol_table[class_name] = constructor  # Конструктор доступен глобально
+        self.symbol_table[constructor_name] = constructor  # Конструктор доступен глобально
+
+#         print(f'DEBUG: конструктор {constructor_name} был добавлен в таблицу символов')
         
     def exitClassDecl(self, ctx: vecmatlangParser.ClassDeclContext):
         # Выходим из области видимости инициализации полей
@@ -308,13 +322,22 @@ class SemanticAnalyzer(vecmatlangListener):
         if param_list:
             params = [Type.UNKNOWN] * len(param_list.ID())
             
+        # Проверяем, не перекрывают ли параметры поля класса
+        if param_list:
+            for param in param_list.ID():
+                param_name = param.getText()
+                # Проверяем, есть ли поле с таким именем в классе
+                if self.current_class and param_name in self.current_class.fields:
+                    self._add_error(f"Параметр метода '{param_name}' перекрывает поле класса с тем же именем", 
+                                  param.symbol.line, param.symbol.column)
+
         # Создаем символ метода
         method_sym = FunctionSymbol(method_name, Type.UNKNOWN, params, line, column, True)
         
         # Добавляем метод в класс
         self.current_class.methods[method_name] = method_sym
 
-        print(f'DEBUG: Метод {method_name} с аргументами {params} был добавлен в класс {self.current_class}')
+#         print(f'DEBUG: Метод {method_name} с аргументами {params} был добавлен в класс {self.current_class}')
         
         # Устанавливаем текущий метод
         self.current_function = method_sym
@@ -353,12 +376,14 @@ class SemanticAnalyzer(vecmatlangListener):
         var_name = self._get_var_name(var_ctx)
         if not var_name:
             return
+        
+        self.last_constructor_call = None
             
         # Анализируем тип выражения
         expr_type = self._analyze_expression(expr_ctx)
+
+#         print(f'DEBUG: {expr_type}')
         
-
-
         # Если это простое имя переменной (не поле класса)
         if ctx.var().ID():
             # Проверяем, объявлена ли уже переменная
@@ -368,9 +393,17 @@ class SemanticAnalyzer(vecmatlangListener):
                 # Если не объявлена - добавляем в текущую область видимости
                 new_symbol = Symbol(var_name, expr_type, ctx.start.line, ctx.start.column)
                 new_symbol.is_initialized = True
+
+                # Если это объект класса, сохраняем ссылку на класс
+                if expr_type == Type.CLASS and self.last_constructor_call:
+                    # Сохраняем имя класса в переменной
+                    # Можно добавить поле class_name в Symbol
+                    new_symbol.class_ref = self.last_constructor_call
+#                     print(f'DEBUG: Переменная {var_name} типа CLASS ссылается на класс {self.last_constructor_call}')
+
                 self._current_scope_table()[var_name] = new_symbol
 
-                print(f'DEBUG: Переменная {var_name} была добавлена в текущую область видимости {self.current_scope}')
+#                 print(f'DEBUG: Объект {var_name} был добавлен в текущую область видимости {self.current_scope}')
             else:
                 # Если объявлена - проверяем совместимость типов
                 if existing_symbol.type != Type.UNKNOWN and existing_symbol.type != expr_type:
@@ -389,13 +422,20 @@ class SemanticAnalyzer(vecmatlangListener):
                 
                 # Находим объект
                 obj_symbol = self._lookup_symbol(obj_name)
+                if obj_symbol and obj_symbol.type == Type.CLASS:
+                    # ДОПОЛНЕНИЕ: Проверка на перезапись поля вне класса
+                    self._add_error(f"Поле '{field_name}' объекта '{obj_name}' изменяется вне класса", 
+                                    var_ctx.start.line, var_ctx.start.column)
+                    
                 if not obj_symbol or obj_symbol.type != Type.CLASS:
                     self._add_error(f"Объект '{obj_name}' не найден",
                                   var_ctx.start.line, var_ctx.start.column)
                     return
                     
                 # Находим класс
-                class_sym = self.symbol_table.get(obj_name)
+                class_name = obj_symbol.class_ref
+                class_sym = self.symbol_table.get(class_name)
+
                 if not isinstance(class_sym, ClassSymbol):
                     self._add_error(f"'{obj_name}' не является классом",
                                   var_ctx.start.line, var_ctx.start.column)
@@ -408,10 +448,6 @@ class SemanticAnalyzer(vecmatlangListener):
                                   var_ctx.start.line, var_ctx.start.column)
                     return
                     
-                # Проверяем совместимость типов
-                if field.type != expr_type and not (field.type == Type.FLOAT and expr_type == Type.INT):
-                    self._add_error(f"Тип {expr_type.value} несовместим с типом поля {field.type.value}",
-                                  var_ctx.start.line, var_ctx.start.column)
         else:
             # Для индексированных переменных пока пропускаем проверку
             pass
@@ -431,7 +467,7 @@ class SemanticAnalyzer(vecmatlangListener):
                     field_symbol.is_initialized = True
                     self._current_scope_table()[var_name] = field_symbol
 
-                    print(f'DEBUG: Поле {var_name} было добавлено в текущий класс {self.current_class}')
+#                     print(f'DEBUG: Поле {var_name} было добавлено в текущий класс {self.current_class}')
                 
     def enterMultipleAssignment(self, ctx: vecmatlangParser.MultipleAssignmentContext):
         """Обработка множественного присваивания: x, y = swap(x, y)"""
@@ -467,13 +503,12 @@ class SemanticAnalyzer(vecmatlangListener):
                     arg_list = expr.argumentList()
                     arg_count = len(arg_list.expression()) if arg_list else 0
                     
-                    # В этом языке функция возвращает столько значений, сколько принимает
-                    # (как swap в примере)
+
                     expected_returns = arg_count
                     actual_vars = len(var_nodes)
                     
                     if expected_returns != actual_vars:
-                        self._add_error(f"Функция '{func_name}' принимает {arg_count} аргументов, поэтому возвращает {expected_returns} значений, " +
+                        self._add_error(f"Функция '{func_name}' возвращает {expected_returns} значений, " +
                                     f"но присваивается {actual_vars} переменным",
                                     ctx.start.line, ctx.start.column)
         
@@ -489,7 +524,7 @@ class SemanticAnalyzer(vecmatlangListener):
                     new_symbol.is_initialized = True
                     self._current_scope_table()[var_name] = new_symbol
 
-                    print(f'DEBUG: Переменная {var_name} была добавлена в текущую область видимости {self.current_scope}')
+#                     print(f'DEBUG: Переменная {var_name} была добавлена в текущую область видимости {self.current_scope}')
                 else:
                     existing_symbol.is_initialized = True
 
@@ -507,34 +542,34 @@ class SemanticAnalyzer(vecmatlangListener):
     def _analyze_expression(self, expr_ctx) -> Type:
         """Анализирует выражение и возвращает его тип"""
 
-        print(f'DEBUG: Анализ выражения "{expr_ctx.getText()}"')
+#         print(f'DEBUG: Анализ выражения "{expr_ctx.getText()}"')
 
         if isinstance(expr_ctx, vecmatlangParser.PrimaryExprContext):
-            print('---DEBUG: Это первичное выражение')
+#             print('---DEBUG: Это первичное выражение')
 
             return self._analyze_primary_expression(expr_ctx.primaryExpression())
 
         elif isinstance(expr_ctx, vecmatlangParser.UnaryMinusExprContext):
 
-            print('---DEBUG: Это выражение с унарным минусом')
+#             print('---DEBUG: Это выражение с унарным минусом')
 
             inner_type = self._analyze_expression(expr_ctx.expression())
             if inner_type not in [Type.INT, Type.FLOAT, Type.VECTOR, Type.MATRIX]:
 
-                print('===SEM_ERROR')
+#                 print('===SEM_ERROR')
                 self._add_error("Унарный минус применяется только к числам, векторам и матрицам", 
                               expr_ctx.start.line, expr_ctx.start.column)
                 return Type.UNKNOWN
             return inner_type
         elif isinstance(expr_ctx, vecmatlangParser.IndexExprContext):
 
-            print('---DEBUG: Это выражение с индексацией')
+#             print('---DEBUG: Это выражение с индексацией')
             # Индексация: expr[expr]
             obj_type = self._analyze_expression(expr_ctx.expression(0))
             index_type = self._analyze_expression(expr_ctx.expression(1))
             
             if index_type != Type.INT:
-                print('===SEM_ERROR')
+#                 print('===SEM_ERROR')
                 self._add_error(f"Индекс должен быть int, получен {index_type.value}", 
                               expr_ctx.start.line, expr_ctx.start.column)
                 
@@ -543,7 +578,7 @@ class SemanticAnalyzer(vecmatlangListener):
             elif obj_type == Type.MATRIX:
                 return Type.VECTOR
             else:
-                print('===SEM_ERROR')
+#                 print('===SEM_ERROR')
                 self._add_error("Индексация применяется только к vector и matrix", 
                               expr_ctx.start.line, expr_ctx.start.column)
                 return Type.UNKNOWN
@@ -552,22 +587,22 @@ class SemanticAnalyzer(vecmatlangListener):
                                   vecmatlangParser.ComparisonExprContext,
                                   vecmatlangParser.BinlogicExprContext)):
             
-            print('---DEBUG: Это бинарное выражение')
+#             print('---DEBUG: Это бинарное выражение')
 
             return self._analyze_binary_op(expr_ctx)
         elif isinstance(expr_ctx, vecmatlangParser.NotExprContext):
 
-            print('---DEBUG: Это выражение с отрицанием')
+#             print('---DEBUG: Это выражение с отрицанием')
 
             inner_type = self._analyze_expression(expr_ctx.expression())
             if inner_type != Type.BOOL:
-                print('===SEM_ERROR')
+#                 print('===SEM_ERROR')
                 self._add_error("Оператор '!' применяется только к bool", 
                               expr_ctx.start.line, expr_ctx.start.column)
                 return Type.UNKNOWN
             return Type.BOOL
             
-        print('---DEBUG: Это неизвестное выражение')
+#         print('---DEBUG: Это неизвестное выражение')
         
         return Type.UNKNOWN
         
@@ -589,13 +624,27 @@ class SemanticAnalyzer(vecmatlangListener):
         if isinstance(primary_ctx, vecmatlangParser.VarExprContext):
             # Идентификатор или переменная
 
-            print('   ---DEBUG: Это переменная')
+#             print('   ---DEBUG: Это переменная')
             var_ctx = primary_ctx.var()
 
-            if var_ctx.ID():
+            if var_ctx.fieldAppeal():
+                # Обращение к полю класса: obj.field
+#                 print('   ---DEBUG: Это обращение к полю класса внутри VarExpr')
+                return self._analyze_field_access(var_ctx.fieldAppeal())
+
+            elif var_ctx.ID():
 
                 var_name = var_ctx.ID().getText()
                 symbol = self._lookup_symbol(var_name)
+
+                if self.in_method and not symbol:
+                    # Если внутри метода и символ не найден
+                    # Проверяем, не является ли это параметром конструктора класса
+                    if self.current_class and var_name in self.current_class.constructor_params:
+                        # Это параметр конструктора класса, используемый в методе
+                        self._add_error(f"Параметр конструктора '{var_name}' недоступен в методах класса", 
+                                      primary_ctx.start.line, primary_ctx.start.column)
+                        return Type.UNKNOWN
                 
                 if not symbol:  
                     if self.in_method:
@@ -606,7 +655,7 @@ class SemanticAnalyzer(vecmatlangListener):
                             return field.type
 
 
-                    print('   ===SEM_ERROR')
+#                     print('   ===SEM_ERROR')
                     self._add_error(f"Идентификатор '{var_name}' не найден", 
                                   primary_ctx.start.line, primary_ctx.start.column)
                     return Type.UNKNOWN
@@ -624,8 +673,6 @@ class SemanticAnalyzer(vecmatlangListener):
                     return symbol.type
                     
                 func_in_table = self.symbol_table.get(var_name)
-
-                print(f'   +++DEBUG: Найдена функция: {func_in_table}')
 
                 if isinstance(func_in_table, FunctionSymbol):
                     # Это функция, уже объявленная где-то
@@ -652,24 +699,45 @@ class SemanticAnalyzer(vecmatlangListener):
                 else:
                     return Type.UNKNOWN
                 
+            elif var_ctx.getChildCount() > 1 and var_ctx.getChild(1).getText() == '[':
+                # Индексированная переменная: arr[index]
+                # Обработка индексации
+                obj_name = var_ctx.ID().getText()
+                symbol = self._lookup_symbol(obj_name)
+                if not symbol:
+                    self._add_error(f"Переменная '{obj_name}' не найдена", 
+                                  var_ctx.start.line, var_ctx.start.column)
+                    return Type.UNKNOWN
+                    
+                if symbol.type not in [Type.VECTOR, Type.MATRIX]:
+                    self._add_error(f"Индексация применяется только к vector и matrix, а не к {symbol.type.value}", 
+                                  var_ctx.start.line, var_ctx.start.column)
+                    return Type.UNKNOWN
+                    
+                # Для вектора возвращаем FLOAT, для матрицы - VECTOR
+                if symbol.type == Type.VECTOR:
+                    return Type.FLOAT
+                else:  # MATRIX
+                    return Type.VECTOR
+                
         elif isinstance(primary_ctx, vecmatlangParser.ParenExprContext):
-            print('   ---DEBUG: Это выражение со скобками')
+#             print('   ---DEBUG: Это выражение со скобками')
             return self._analyze_expression(primary_ctx.expression())
             
         elif isinstance(primary_ctx, vecmatlangParser.FuncCallExprContext):
-            print('    ---DEBUG: Это выражение вызова функции')
+#             print('    ---DEBUG: Это выражение вызова функции')
             return self._analyze_function_call(primary_ctx)
             
         elif isinstance(primary_ctx, vecmatlangParser.FieldExprContext):
-            print('    ---DEBUG: Это выражение обращение к полю класса')
+#             print('    ---DEBUG: Это выражение обращение к полю класса')
             return self._analyze_field_access(primary_ctx.fieldAppeal())
             
         elif isinstance(primary_ctx, vecmatlangParser.MethodExprContext):
-            print('    ---DEBUG: Это выражение вызова метода')
+#             print('    ---DEBUG: Это выражение вызова метода')
             return self._analyze_method_call(primary_ctx.methodAppeal())
             
         elif isinstance(primary_ctx, vecmatlangParser.LiteralExprContext):
-            print('    ---DEBUG: Это выражение-литерал')
+#             print('    ---DEBUG: Это выражение-литерал')
             return self._analyze_literal(primary_ctx.literal())
             
         elif isinstance(primary_ctx, vecmatlangParser.TypeExprContext):
@@ -685,7 +753,7 @@ class SemanticAnalyzer(vecmatlangListener):
                     expr_type = self._analyze_expression(expr)
                     # Базовая проверка типов
                     if target_type == Type.VECTOR and expr_type not in [Type.INT, Type.FLOAT]:
-                        print('    ===SEM_ERROR')
+#                         print('    ===SEM_ERROR')
                         self._add_error(f"Вектор может содержать только числа", 
                                       primary_ctx.start.line, primary_ctx.start.column)
                         
@@ -695,14 +763,14 @@ class SemanticAnalyzer(vecmatlangListener):
             # len() функция
             arg_list = primary_ctx.argumentList()
             if not arg_list or len(arg_list.expression()) != 1:
-                print('    ===SEM_ERROR')
+#                 print('    ===SEM_ERROR')
                 self._add_error("Функция len() принимает ровно один аргумент", 
                               primary_ctx.start.line, primary_ctx.start.column)
                 return Type.UNKNOWN
                 
             arg_type = self._analyze_expression(arg_list.expression(0))
             if arg_type not in [Type.VECTOR, Type.MATRIX]:
-                print('   ===SEM_ERROR')
+#                 print('   ===SEM_ERROR')
                 self._add_error("Функция len() применяется только к vector и matrix", 
                               primary_ctx.start.line, primary_ctx.start.column)
                 return Type.UNKNOWN
@@ -716,43 +784,60 @@ class SemanticAnalyzer(vecmatlangListener):
         
     def _analyze_field_access(self, field_ctx) -> Type:
         """Анализ обращения к полю класса: obj.field"""
+#         print(f"DEBUG _analyze_field_access: {field_ctx.getText()}")
+        
         obj_name = field_ctx.ID(0).getText()
         field_name = field_ctx.ID(1).getText()
         
-        print(f'DEBUG: Анализ обращения {obj_name} к полю {field_name}')
-
         # Проверяем, что объект существует
         obj_symbol = self._lookup_symbol(obj_name)
         if not obj_symbol:
+#             print(f"DEBUG: Объект '{obj_name}' не найден")
             self._add_error(f"Объект '{obj_name}' не найден", 
                           field_ctx.start.line, field_ctx.start.column)
             return Type.UNKNOWN
             
-        # Получаем класс объекта
-        class_sym = self.symbol_table.get(obj_name)
+        # Проверяем тип объекта
+        if obj_symbol.type != Type.CLASS:
+#             print(f"DEBUG: '{obj_name}' не является объектом класса")
+            self._add_error(f"'{obj_name}' не является объектом класса (тип: {obj_symbol.type.value})", 
+                          field_ctx.start.line, field_ctx.start.column)
+            return Type.UNKNOWN
+        
+        # Определяем класс объекта
+        class_name = None
+        
+        # Способ 1: из поля class_ref в Symbol
+        if hasattr(obj_symbol, 'class_ref') and obj_symbol.class_ref:
+            class_name = obj_symbol.class_ref
+        
+#         print(f"DEBUG: Предполагаемый класс для '{obj_name}': '{class_name}'")
+        
+        if not class_name:
+            self._add_error(f"Не удалось определить класс объекта '{obj_name}'", 
+                          field_ctx.start.line, field_ctx.start.column)
+            return Type.UNKNOWN
+        
+        # Находим класс
+        class_sym = self.symbol_table.get(class_name)
         if not isinstance(class_sym, ClassSymbol):
-            # Это может быть конструктор, возвращающий объект класса
-            # Проверяем, есть ли класс с таким именем
-            class_sym = self.symbol_table.get(obj_name)
-            if not class_sym or not isinstance(class_sym, ClassSymbol):
-                # Проверяем, не является ли это вызовом конструктора
-                constructor = self.symbol_table.get(obj_name)
-                if isinstance(constructor, FunctionSymbol) and constructor.type == Type.CLASS:
-                    # Это конструктор класса
-                    return Type.UNKNOWN  # Тип поля пока неизвестен
-                    
-        if not isinstance(class_sym, ClassSymbol):
-            self._add_error(f"'{obj_name}' не является классом", 
+#             print(f"DEBUG: Класс '{class_name}' не найден или не ClassSymbol")
+            self._add_error(f"Класс '{class_name}' не найден для объекта '{obj_name}'", 
                           field_ctx.start.line, field_ctx.start.column)
             return Type.UNKNOWN
             
+#         print(f"DEBUG: Поля класса {class_name}: {list(class_sym.fields.keys())}")
+#         print(f"DEBUG: Ищем поле '{field_name}'")
+        
         # Проверяем поле
         field = class_sym.fields.get(field_name)
         if not field:
-            self._add_error(f"Поле '{field_name}' не найдено в классе '{obj_name}'", 
+#             print(f"DEBUG: Поле '{field_name}' не найдено")
+            self._add_error(f"Поле '{field_name}' не найдено в классе '{class_name}'", 
                           field_ctx.start.line, field_ctx.start.column)
             return Type.UNKNOWN
             
+#         print(f"DEBUG: Поле '{field_name}' найдено, тип: {field.type}")
         return field.type
         
     def _analyze_method_call(self, method_ctx) -> Type:
@@ -760,7 +845,7 @@ class SemanticAnalyzer(vecmatlangListener):
         obj_name = method_ctx.ID(0).getText()
         method_name = method_ctx.ID(1).getText()
 
-        print(f'DEBUG: Анализ вызова метода {method_name}')
+#         print(f'DEBUG: Анализ вызова метода {method_name}')
         
         # Проверяем объект
         obj_symbol = self._lookup_symbol(obj_name)
@@ -806,7 +891,7 @@ class SemanticAnalyzer(vecmatlangListener):
         line = func_ctx.start.line
         column = func_ctx.start.column
 
-        print(f"DEBUG: Анализ вызова функции {func_name} на строке {line}")
+#         print(f"DEBUG: Анализ вызова функции {func_name} на строке {line}")
 
         # Анализируем аргументы
         arg_count = 0
@@ -818,14 +903,19 @@ class SemanticAnalyzer(vecmatlangListener):
         
         # Проверяем, не является ли это конструктором класса
         class_sym = self.symbol_table.get(func_name)
+
+#         print(f'DEBUG: {self.symbol_table}')
+
         if isinstance(class_sym, ClassSymbol):
                     
             # Проверяем количество параметров конструктора
             expected_params = len(class_sym.fields)  
             if arg_count != expected_params:
-                self._add_warning(f"Конструктор класса '{func_name}' ожидает {expected_params} аргументов, получено {arg_count}", 
+                self._add_error(f"Конструктор класса '{func_name}' ожидает {expected_params} аргументов, получено {arg_count}", 
                                 line, column)
                                 
+            self.last_constructor_call = func_name
+
             return Type.CLASS  # Конструктор возвращает объект класса
             
         # Обработка обычных функций
@@ -991,22 +1081,6 @@ class SemanticAnalyzer(vecmatlangListener):
                 # Может быть выражение внутри
                 pass
         
-        # Если не нашли строки через векторные литералы, используем альтернативный подход
-        if not rows:
-            # Пробуем найти строки через текст
-            text = matrix_ctx.getText()
-            
-            # Удаляем внешние скобки
-            if text.startswith('[[') and text.endswith(']]'):
-                inner = text[2:-2]
-                # Разделяем строки по '],[' или '], ['
-                row_texts = []
-                if '],[' in inner:
-                    row_texts = inner.split('],[')
-                elif '], [' in inner:
-                    row_texts = inner.split('], [')
-                else:
-                    row_texts = [inner]
         
         # Проверяем строки
         if rows:
