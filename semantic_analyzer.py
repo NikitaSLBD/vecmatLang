@@ -1,15 +1,13 @@
 # semantic_analyzer.py
-from enum import Enum
 from typing import Dict, List, Optional, Tuple
 from antlr4 import *
 from antlr4.tree.Tree import ParseTreeWalker
 
-from generated.vecmatlangLexer import vecmatlangLexer
 from generated.vecmatlangParser import vecmatlangParser
 from generated.vecmatlangListener import vecmatlangListener
 
 from syntax_analyzer import read_vml, get_analyze_tools, EXAMPLES_DIR
-
+from symbols import Type, Symbol, FunctionSymbol, ClassSymbol
 
 EXAMPLES_NAMES = [
     'example1.vml',
@@ -21,96 +19,6 @@ EXAMPLES_NAMES = [
     'wrongsemantic_example3.vml'
 ]
 
-# Типы данных
-class Type(Enum):
-    INT = "int"
-    FLOAT = "float"
-    BOOL = "bool"
-    VECTOR = "vector"
-    MATRIX = "matrix"
-    VOID = "void"
-    CLASS = "class"
-    STRING = "string"
-    UNKNOWN = "unknown"
-    
-    @staticmethod
-    def from_token(token_type: int):
-        mapping = {
-            45: Type.INT,      # INT_TYPE
-            46: Type.FLOAT,    # FLOAT_TYPE
-            47: Type.VECTOR,   # VECTOR
-            48: Type.MATRIX,   # MATRIX
-            52: Type.STRING,   # STRING
-        }
-        return mapping.get(token_type, Type.UNKNOWN)
-
-class Symbol:
-    def __init__(self, name: str, symbol_type: Type, line: int = 0, column: int = 0, class_ref: str=None):
-        self.name: str = name
-        self.type: Type = symbol_type
-        self.line: int = line
-        self.column: int= column
-        self.is_initialized: bool = False
-        self.class_ref: str = class_ref
-        
-    def __str__(self):
-        return f"{self.name}: {self.type.value}"
-
-class FunctionSymbol(Symbol):
-    def __init__(self, name: str, return_type: Type, params: List[Type], 
-                 line: int = 0, column: int = 0, is_method: bool = False):
-        super().__init__(name, return_type, line, column)
-        self.params: List[Type] = params  # List of types
-        self.is_method: bool = is_method
-        self.overloads: List[List[Type]]= [params]  # Первая сигнатура сразу добавляется в overloads
-        
-    def add_overload(self, params: List[Type]):
-        """Добавить перегрузку функции"""
-
-        # Проверяем, нет ли уже такой перегрузки
-        for overload in self.overloads:
-            if len(overload) == len(params):
-                # Уже есть перегрузка с таким количеством параметров
-                return
-        self.overloads.append(params)
-        
-    def find_matching_overload(self, arg_count: int) -> Optional[List[Type]]:
-        """Найти подходящую перегрузку по количеству аргументов"""
-
-        for overload in self.overloads:
-            if len(overload) == arg_count:
-                return overload
-        return None
-        
-    def get_all_overloads_info(self) -> str:
-        """Получить информацию о всех перегрузках"""
-
-        overloads_info = []
-        for _, overload in enumerate(self.overloads):
-            overloads_info.append(f"{self.name}({len(overload)} аргументов)")
-        return ", ".join(overloads_info)
-
-class ClassSymbol(Symbol):
-    def __init__(self, name: str, line: int = 0, column: int = 0):
-        super().__init__(name, Type.CLASS, line, column)
-        self.fields: Dict[str, Symbol] = {}
-        self.methods: Dict[str, FunctionSymbol] = {}
-        self.static_funcs: Dict[str, FunctionSymbol] = {}
-        self.constructor_params: List[str] = []
-        
-    def add_constructor_param(self, name: str):
-        self.constructor_params.append(name)
-
-    def add_field(self, name: str, field_type: Type, line: int, column: int):
-        self.fields[name] = Symbol(name, field_type, line, column)
-        
-    def add_method(self, name: str, return_type: Type, params: List[Type], 
-                   line: int, column: int):
-        self.methods[name] = FunctionSymbol(name, return_type, params, line, column, True)
-        
-    def add_static_func(self, name: str, return_type: Type, params: List[Type], 
-                        line: int, column: int):
-        self.static_funcs[name] = FunctionSymbol(name, return_type, params, line, column, False)
 
 class SemanticAnalyzer(vecmatlangListener):
     def __init__(self):
@@ -124,7 +32,7 @@ class SemanticAnalyzer(vecmatlangListener):
         self.current_class: Optional[ClassSymbol] = None
         self.current_function: Optional[FunctionSymbol] = None
         self.in_class_body = False
-        self.in_method = False  # Новый флаг: внутри метода класса
+        self.in_method = False  # внутри метода класса
         self.class_params = {}  # Параметры текущего класса
         self.last_constructor_call = None
 
@@ -297,20 +205,8 @@ class SemanticAnalyzer(vecmatlangListener):
         self.in_class_body = False
         self.class_params = {}
         
-    def enterClassBody(self, ctx: vecmatlangParser.ClassBodyContext):
-        """Вход в тело класса (после INDENT)"""
-        # В этой области будут объявлены поля и методы
-        self._enter_scope()
-        
-    def exitClassBody(self, ctx: vecmatlangParser.ClassBodyContext):
-        """Выход из тела класса"""
-        self._exit_scope()
-        
     def enterMethodDecl(self, ctx: vecmatlangParser.MethodDeclContext):
         """Вход в объявление метода"""
-        if not self.current_class:
-            self._add_error("Метод объявлен вне класса", ctx.start.line, ctx.start.column)
-            return
             
         method_name = ctx.ID().getText()
         line = ctx.start.line
@@ -404,14 +300,7 @@ class SemanticAnalyzer(vecmatlangListener):
                 self._current_scope_table()[var_name] = new_symbol
 
 #                 print(f'DEBUG: Объект {var_name} был добавлен в текущую область видимости {self.current_scope}')
-            else:
-                # Если объявлена - проверяем совместимость типов
-                if existing_symbol.type != Type.UNKNOWN and existing_symbol.type != expr_type:
-                    # Проверяем числовое преобразование
-                    if not (existing_symbol.type == Type.FLOAT and expr_type == Type.INT):
-                        self._add_error(f"Тип {expr_type.value} несовместим с типом переменной {existing_symbol.type.value}",
-                                      ctx.start.line, ctx.start.column)
-                existing_symbol.is_initialized = True
+            else: existing_symbol.is_initialized = True
                 
         # Если это обращение к полю класса (obj.field)
         elif ctx.var().fieldAppeal():
@@ -728,10 +617,6 @@ class SemanticAnalyzer(vecmatlangListener):
 #             print('    ---DEBUG: Это выражение вызова функции')
             return self._analyze_function_call(primary_ctx)
             
-        elif isinstance(primary_ctx, vecmatlangParser.FieldExprContext):
-#             print('    ---DEBUG: Это выражение обращение к полю класса')
-            return self._analyze_field_access(primary_ctx.fieldAppeal())
-            
         elif isinstance(primary_ctx, vecmatlangParser.MethodExprContext):
 #             print('    ---DEBUG: Это выражение вызова метода')
             return self._analyze_method_call(primary_ctx.methodAppeal())
@@ -1007,26 +892,33 @@ class SemanticAnalyzer(vecmatlangListener):
     def _analyze_vector_literal(self, vector_ctx) -> Type:
         """Анализ векторного литерала"""
         
-        # Проверяем, не является ли это на самом деле матрицей
         text = vector_ctx.getText()
+        
+        # Проверяем, не является ли это на самом деле матрицей
+        # (на случай если парсер ошибся)
         if text.startswith('[[') and text.endswith(']]'):
-            # Это может быть матрица, проанализированная как вектор
-            
-            # Попробуем проанализировать как матрицу
-            # Для этого нужно проверить элементы
-            if vector_ctx.expression():
-                for expr in vector_ctx.expression():
-                    expr_text = expr.getText() if hasattr(expr, 'getText') else str(expr)
-                    
-                    # Если элемент сам является векторным литералом, это матрица
-                    if isinstance(expr, vecmatlangParser.VectorLiteralContext): return Type.MATRIX
+            # Это может быть матрица
+            # Проверим элементы через argumentList
+            arg_list = vector_ctx.argumentList()
+            if arg_list:
+                for expr in arg_list.expression():
+                    # Если элемент содержит внутренние скобки, это может быть вектор
+                    expr_text = expr.getText()
+                    if expr_text.startswith('[') and expr_text.endswith(']'):
+                        return Type.MATRIX
                         
         # Обычный анализ вектора
-        if not vector_ctx.expression():
+        arg_list = vector_ctx.argumentList()
+        if not arg_list:
+            return Type.VECTOR  # Пустой вектор []
+        
+        # Получаем все выражения из argumentList
+        expressions = arg_list.expression()
+        if not expressions:
             return Type.VECTOR  # Пустой вектор
         
         elem_types = []
-        for expr in vector_ctx.expression():
+        for expr in expressions:
             elem_type = self._analyze_expression(expr)
             
             if elem_type not in [Type.INT, Type.FLOAT, Type.VECTOR, Type.MATRIX]:
@@ -1040,9 +932,18 @@ class SemanticAnalyzer(vecmatlangListener):
             
             # Проверяем, что все элементы - векторы одинаковой длины
             vector_lengths = []
-            for expr in vector_ctx.expression():
-                if isinstance(expr, vecmatlangParser.VectorLiteralContext):
-                    vector_lengths.append(len(expr.expression()))
+            for expr in expressions:
+                expr_text = expr.getText()
+                # Если это векторный литерал
+                if expr_text.startswith('[') and expr_text.endswith(']'):
+                    # Подсчитываем элементы внутри вектора
+                    # Простой подсчет запятых + 1
+                    inner_text = expr_text[1:-1].strip()
+                    if not inner_text:
+                        vector_lengths.append(0)
+                    else:
+                        # Примерно считаем элементы
+                        vector_lengths.append(inner_text.count(',') + 1)
             
             if vector_lengths:
                 first_len = vector_lengths[0]
@@ -1065,22 +966,27 @@ class SemanticAnalyzer(vecmatlangListener):
     def _analyze_matrix_literal(self, matrix_ctx) -> Type:
         """Анализ матричного литерала"""
         
-        # Матричный литерал в грамматике: '[' '[' expr (',' expr)* ']' (',' '[' expr (',' expr)* ']')* ']'
-        # Нужно получить все строки матрицы
+        # Матричный литерал в новой грамматике: '[' '[' argumentList ']' (',' '[' argumentList ']')* ']'
+        # Нужно получить все строки матрицы (векторные литералы)
         
-        # Собираем строки матрицы
+        # Собираем строки матрицы - ищем все VectorLiteralContext
         rows = []
         
-        # Обходим детей контекста, ищем векторные литералы
+        # Обходим детей контекста
         for i in range(matrix_ctx.getChildCount()):
             child = matrix_ctx.getChild(i)
-            
             if isinstance(child, vecmatlangParser.VectorLiteralContext):
                 rows.append(child)
-            elif isinstance(child, vecmatlangParser.ExpressionContext):
-                # Может быть выражение внутри
-                pass
         
+        # Если не нашли через обход детей, попробуем другой способ
+        if not rows:
+            # В новой грамматике матрица состоит из векторных литералов
+            # Получим текст и попробуем разобрать
+            text = matrix_ctx.getText()
+            if text.startswith('[[') and text.endswith(']]'):
+                inner = text[2:-2].strip()
+                # Пока пропустим детальный анализ
+                pass
         
         # Проверяем строки
         if rows:
@@ -1088,14 +994,21 @@ class SemanticAnalyzer(vecmatlangListener):
             elem_types = set()
             
             for i, row_ctx in enumerate(rows):
-                if not row_ctx.expression():
+                arg_list = row_ctx.argumentList()
+                if not arg_list:
                     self._add_error(f"Строка матрицы {i+1} пустая", 
                                 row_ctx.start.line, row_ctx.start.column)
                     continue
                     
-                row_lengths.append(len(row_ctx.expression()))
+                expressions = arg_list.expression()
+                if not expressions:
+                    self._add_error(f"Строка матрицы {i+1} пустая", 
+                                row_ctx.start.line, row_ctx.start.column)
+                    continue
+                    
+                row_lengths.append(len(expressions))
                 
-                for expr in row_ctx.expression():
+                for expr in expressions:
                     elem_type = self._analyze_expression(expr)
                     if elem_type not in [Type.INT, Type.FLOAT]:
                         self._add_error(f"Элемент матрицы должен быть числом, получен {elem_type.value}", 
@@ -1151,21 +1064,26 @@ class SemanticAnalyzer(vecmatlangListener):
                     return Type.VECTOR
                 elif op == '*':
                     return Type.FLOAT  # Скалярное произведение
-                elif op == '/':
-                    self._add_error("Векторы нельзя делить", line, col)
+                else:
+                    self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
                     return Type.UNKNOWN
             
             # 3. Вектор и число
             elif left == Type.VECTOR and right in [Type.INT, Type.FLOAT]:
-                if op in ['*', '/', '+', '-']:
+                if op in ['*', '/']:
                     return Type.VECTOR  # Поэлементные операции
+                else:
+                    self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
+                    return Type.UNKNOWN
+
                     
             elif left in [Type.INT, Type.FLOAT] and right == Type.VECTOR:
-                if op in ['*', '+', '-']:
+                if op == '*':
                     return Type.VECTOR
-                elif op == '/':
-                    self._add_error("Число нельзя делить на вектор", line, col)
+                else:
+                    self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
                     return Type.UNKNOWN
+            
             
             # 4. Матричные операции
             elif left == Type.MATRIX and right == Type.MATRIX:
@@ -1173,20 +1091,23 @@ class SemanticAnalyzer(vecmatlangListener):
                     return Type.MATRIX
                 elif op == '*':
                     return Type.MATRIX  # Матричное умножение
-                elif op == '/':
-                    self._add_error("Матрицы нельзя делить", line, col)
+                else:
+                    self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
                     return Type.UNKNOWN
             
             # 5. Матрица и число
             elif left == Type.MATRIX and right in [Type.INT, Type.FLOAT]:
-                if op in ['*', '/', '+', '-']:
+                if op in ['*', '/']:
                     return Type.MATRIX  # Поэлементные операции
+                else:
+                    self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
+                    return Type.UNKNOWN
                     
             elif left in [Type.INT, Type.FLOAT] and right == Type.MATRIX:
-                if op in ['*', '+', '-']:
+                if op == '*':
                     return Type.MATRIX
-                elif op == '/':
-                    self._add_error("Число нельзя делить на матрицу", line, col)
+                else:
+                    self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
                     return Type.UNKNOWN
             
             # 6. Матрица и вектор
@@ -1194,14 +1115,14 @@ class SemanticAnalyzer(vecmatlangListener):
                 if op == '*':
                     return Type.VECTOR  # Умножение матрицы на вектор
                 else:
-                    self._add_error(f"Операция '{op}' не поддерживается между matrix и vector", line, col)
+                    self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
                     return Type.UNKNOWN
                     
             elif left == Type.VECTOR and right == Type.MATRIX:
                 if op == '*':
                     return Type.VECTOR  # Упрощенно
                 else:
-                    self._add_error(f"Операция '{op}' не поддерживается между vector и matrix", line, col)
+                    self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
                     return Type.UNKNOWN
             
             # 7. Строковые операции
@@ -1211,22 +1132,14 @@ class SemanticAnalyzer(vecmatlangListener):
                 elif op == '*' and right == Type.INT:
                     return Type.STRING  # Повторение строки
                 else:
-                    if op == '+':
-                        self._add_error(f"Операция '+' для строки требует другую строку", line, col)
-                    elif op == '*':
-                        self._add_error(f"Строку можно умножать только на целое число", line, col)
-                    else:
-                        self._add_error(f"Операция '{op}' не поддерживается для строк", line, col)
+                    self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
                     return Type.UNKNOWN
                     
             elif right == Type.STRING:
                 if left == Type.INT and op == '*':
                     return Type.STRING  # Повторение строки
                 else:
-                    if op == '*':
-                        self._add_error(f"Строку можно умножать только на целое число", line, col)
-                    else:
-                        self._add_error(f"Операция '{op}' не поддерживается для строк", line, col)
+                    self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
                     return Type.UNKNOWN
         
         # Операции сравнения: >, <, >=, <=, ==, !=
@@ -1246,7 +1159,7 @@ class SemanticAnalyzer(vecmatlangListener):
                 return Type.UNKNOWN
         
         # Если операция не поддерживается для данных типов
-        self._add_error(f"Операция '{op}' не поддерживается для типов {left.value} и {right.value}", line, col)
+        self._add_error(f"Операция '{op}' не поддерживается между {left.value} и {right.value}", line, col)
         return Type.UNKNOWN
         
     def _are_types_comparable(self, left: Type, right: Type) -> bool:
@@ -1287,12 +1200,11 @@ class SemanticAnalyzer(vecmatlangListener):
                 symbol = Symbol(var_name, Type.UNKNOWN, ctx.start.line, ctx.start.column)
                 self._current_scope_table()[var_name] = symbol
             elif not symbol.is_initialized:
-                self._add_warning(f"Переменная '{var_name}' используется до инициализации",
+                self._add_error(f"Переменная '{var_name}' используется до инициализации",
                                 ctx.start.line, ctx.start.column)
                     
     # ========== Дополнительные проверки ==========
     
-
     def enterReturnStatement(self, ctx: vecmatlangParser.ReturnStatementContext):
         if not self.current_function:
             self._add_error("Оператор return вне функции", ctx.start.line, ctx.start.column)
@@ -1337,8 +1249,7 @@ class SemanticAnalyzer(vecmatlangListener):
                            ctx.start.line, ctx.start.column)
             return
             
-        # В ДИНАМИЧЕСКОЙ ТИПИЗАЦИИ: не проверяем типы аргументов range строго
-        # Проверяем только количество аргументов
+        # Проверяем количество аргументов
         if ctx.expression():
             args = ctx.expression()
             if len(args) < 1 or len(args) > 3:
@@ -1367,8 +1278,6 @@ def analyze(file_path: str) -> Tuple[List[str], List[str]]:
     walker.walk(analyzer, tree)
     
     return analyzer.errors, analyzer.warnings
-
-# ========== Пример использования ==========
 
 if __name__ == "__main__":
     

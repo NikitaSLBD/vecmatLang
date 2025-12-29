@@ -6,8 +6,8 @@ func factorial(n):
     return result * i
 
 # сложное выражение подпрограмма принимает результат другой подпрограммы
-num = int(read())
-write("Факториал числа ", num, " равен ", factorial(num))
+num = int(read("Enter num:"))
+write("Factorial of ", num, " equals ", factorial(num))
 
 vec = [1, 2, 3]
 
@@ -15,4 +15,4 @@ vec = [1, 2, 3]
 until |vec| > 10
     vec = vec * 2
 
-write("Конечная длина вектора: ", |vec|)
+write("Final length of vector: ", |vec|)

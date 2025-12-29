@@ -13,14 +13,14 @@ len_sum_v = |sum_v|
 # некоторые операции над матрицами
 m1 = [[1, 2], [3, 4]]
 m2 = [[0, 1], [1, 0]]
-prod_m = (m1 * m2) * m1[3]
+prod_m = (m1 * m2) * m1[1]
 
 # условный оператор if-then-else и неявный блочный оператор (реализован через генерацию INDENT, DEDENT токенов в indentation_lexer.py)
 if len_sum_v > 10 then
     i2 = 5 
-    write("Длина суммы векторов больше 10")
+    write("Vectors sum length more than 10")
 else
     i2 = 7
-    write("Длина суммы векторов меньше 10")
+    write("Vectors sum length less than 10")
 
 write(i2)

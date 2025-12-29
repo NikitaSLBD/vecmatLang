@@ -11,16 +11,14 @@ vecmatLang - Язык для работы с векторами и матриц�
 * объявление функций только в начале программы
 * операторы цикла: for, while, until
 * условный оператор if-then-else
-* встроенные функции: read(), write(), len(), range()
+* встроенные функции: read(), write(), len()
 * векторное скалярное произведение и нахождеие нормы
 * умножение матриц и нахождение нормы
 * арифметические операции: +, -, *, /, || 
  */
-
 grammar vecmatlang;
 
 // Lexer (Основные токены языка)
-
 
 // Невидимые токены 
 WS: [ ]+ -> skip; // Токен пробелов (игнорируется)
@@ -34,7 +32,6 @@ INDENT и DEDENT будут обрабатываться кастомным ле
 */
 INDENT: '<<INDENT>>'; 
 DEDENT: '<<DEDENT>>';
-
 
 // Токены ключевых слов языка
 IF: 'if';
@@ -84,6 +81,7 @@ STRING: '"' (~["\\\r\n] | '\\' ["\\])* '"';
 COMMENT: '#' ~[\r\n]* -> skip; // Токен комментария в языке (игнорируется)
 
 
+
 // Parser (Основные правила языка КС-грамматика)
 
 // стартовое правило (корень синтаксического дерева)
@@ -114,7 +112,6 @@ parameterList: ID (',' ID)*; // правило, определяющие спи�
 между ними должен быть минимум один statement блок
  */
 block: INDENT statement+ DEDENT;
-
 
 // правило объявления класса
 /*
@@ -183,7 +180,7 @@ singleAssignment: var '=' expression; // правило построения о�
 // правило построения многоцелевого присваивания
 /*
 Перед оператором присваивания может быть перечисление переменных, минимум 2
-после оператора присваивания может быть либо вызов функции (primaryExpression), либо перечисление выражений, минимум 2 
+после оператора присваивания может быть либо вызов функции (primaryExpression), либо список минимум из 2 выражений
  */
 multipleAssignment: var (',' var)+ '=' (primaryExpression | expression (',' expression)+); 
 
@@ -201,7 +198,6 @@ ifStatement:
     block
     (ELSE NEWLINE+ block)?;
 
-
 // Правило оператора цикла 
 /*
 В начале ключевое слово "for" (FOR)
@@ -214,7 +210,6 @@ ifStatement:
 forStatement: 
     FOR ID IN RANGE '(' expression (',' expression)? (',' expression)? ')' NEWLINE+
     block;
-
 
 // Правило оператора цикла 
 /*
@@ -238,49 +233,54 @@ untilStatement:
     UNTIL expression NEWLINE+
     block;
     
+returnStatement: RETURN argumentList?; // Правило конструкции возврата значения из функции 
+writeStatement: WRITE '(' argumentList? ')'; // Правило вызова фцнкции вывода 
+readStatement: READ '(' argumentList? ')'; // Правило вызова функции ввода
 
-returnStatement: RETURN argumentList?;
-writeStatement: WRITE '(' argumentList? ')';
-readStatement: READ '(' argumentList? ')';
-
+// Правило описывающее все возможные выражения в языке
 expression
-    : primaryExpression                                             #primaryExpr
-    | '|' expression '|'                                            #normExpr
-    | '-' expression                                                #unaryMinusExpr
-    | expression '[' expression ']'                                 #indexExpr
-    | expression ('*' | '/') expression                             #mulDivExpr
-    | expression ('+' | '-') expression                             #addSubExpr
-    | expression ('>' | '<' | '>=' | '<=' | '==' | '!=') expression #comparisonExpr
-    | NOT expression                                                #notExpr
-    | expression (AND | OR) expression                              #binlogicExpr
+    : primaryExpression                                             #primaryExpr // первичное (не рекурсивное) выражение
+    | '|' expression '|'                                            #normExpr // выражение нормы/модуля
+    | '-' expression                                                #unaryMinusExpr // выражение унарного минуса
+    |'(' expression ')'                                             #parenExpr // выражение в скобках
+    | expression '[' expression ']'                                 #indexExpr // выражение индексации
+    | expression ('*' | '/') expression                             #mulDivExpr // выражение умножения/деления
+    | expression ('+' | '-') expression                             #addSubExpr // выражения сложения/вычитания
+    | expression ('>' | '<' | '>=' | '<=' | '==' | '!=') expression #comparisonExpr // выражения сравнения 
+    | NOT expression                                                #notExpr // выражение логического отрицания
+    | expression (AND | OR) expression                              #binlogicExpr // выражения логического И/ИЛИ
     ;
 
+// правило типов (используется для вызова функций преобразования типов)
 type
-    : INT_TYPE
-    | FLOAT_TYPE
-    | VECTOR
-    | MATRIX
+    : INT_TYPE // целое число
+    | FLOAT_TYPE // число с плавающей точкой
+    | VECTOR // вектор
+    | MATRIX // матрица
     ;
 
+// правило описывающее все первичные (не рекурсивные) выражения в языке
 primaryExpression
-    : ID '(' argumentList? ')'                          #funcCallExpr
-    | var                                               #varExpr
-    |'(' expression ')'                                 #parenExpr
-    | fieldAppeal                                       #fieldExpr
-    | methodAppeal                                      #methodExpr
-    | literal                                           #literalExpr
-    | type '(' argumentList? ')'                        #typeExpr
-    | LEN '(' argumentList? ')'                         #lenExpr
-    | readStatement                                     #readExpr
+    : ID '(' argumentList? ')'                          #funcCallExpr // вызов функции
+    | var                                               #varExpr // переменная 
+    | methodAppeal                                      #methodExpr // вызов метода класса
+    | literal                                           #literalExpr // литерал
+    | type '(' argumentList? ')'                        #typeExpr // вызов функции преобразования типов
+    | LEN '(' argumentList? ')'                         #lenExpr // вызов функции взятия длины
+    | readStatement                                     #readExpr // вызов функции ввода
     ;
     
-argumentList: expression (',' expression)*;
+argumentList: expression (',' expression)*; // правило описывающее список аргументов 
 
-
+// правило построения литералов
 literal
-    :INT                                                #intLiteral
-    | FLOAT                                             #floatLiteral
-    | '[' expression (',' expression)* ']'              #vectorLiteral
-    | '[' '[' expression (',' expression)* ']' (',' '[' expression (',' expression)* ']')* ']' #matrixLiteral
-    | STRING                                            #stringLiteral
+    :INT                                                             #intLiteral // литерал целого числа
+    | FLOAT                                                          #floatLiteral // литерал числа с плавающей точкой
+    | '[' argumentList ']'                                           #vectorLiteral // векторный литерал
+    | '[' '[' argumentList ']' (',' '[' argumentList ']')* ']'       #matrixLiteral // матричный литерал
+    | STRING                                                         #stringLiteral // литерал строки
     ;
+
+
+
+

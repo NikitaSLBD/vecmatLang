@@ -5,9 +5,8 @@ from generated.vecmatlangLexer import vecmatlangLexer
 class IndentationLexer(vecmatlangLexer):
     def __init__(self, input=None):
         super().__init__(input)
-        self.indent_stack = [0]  # стек уровней отступов
+        self.indent_stack = [0]  # список уровней отступов
         self.tokens_queue = []   # очередь токенов для выдачи
-        self.last_token = None
         self.at_start_of_line = True
         self.pending_indent_check = False
         
@@ -18,9 +17,6 @@ class IndentationLexer(vecmatlangLexer):
             
         # Получаем следующий токен
         token = super().nextToken()
-
-        # Сохраняем последний токен (для отладки)
-        self.last_token = token
 
         # Обработка EOF
         if token.type == Token.EOF:
@@ -144,7 +140,7 @@ class IndentationLexer(vecmatlangLexer):
         return 0
     
     def _create_token(self, token_type, text, line, column):
-        """Создает токен правильно"""
+        """Создает токен"""
         # Создаем токен
         token = CommonToken(
             type=token_type,

@@ -12,4 +12,4 @@ class VectorPair(v1, v2): # объявление класса с парамет�
 vec_pair = VectorPair([1, 2, 3], [3, 2, 1]) # инициализация класса
 
 # обращения к полям и методам класса извне
-write("Косинусное сходство для векторов: ", vec_pair.vec1, "и ", vec_pair.vec2, "это ", vec_pair.cos_similarity())
+write("Cos-similarity of vectors: ", vec_pair.vec1, "and ", vec_pair.vec2, "equals ", vec_pair.cos_similarity())

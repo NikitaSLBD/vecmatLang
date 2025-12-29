@@ -269,6 +269,15 @@ class vecmatlangListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by vecmatlangParser#parenExpr.
+    def enterParenExpr(self, ctx:vecmatlangParser.ParenExprContext):
+        pass
+
+    # Exit a parse tree produced by vecmatlangParser#parenExpr.
+    def exitParenExpr(self, ctx:vecmatlangParser.ParenExprContext):
+        pass
+
+
     # Enter a parse tree produced by vecmatlangParser#normExpr.
     def enterNormExpr(self, ctx:vecmatlangParser.NormExprContext):
         pass
@@ -302,24 +311,6 @@ class vecmatlangListener(ParseTreeListener):
 
     # Exit a parse tree produced by vecmatlangParser#varExpr.
     def exitVarExpr(self, ctx:vecmatlangParser.VarExprContext):
-        pass
-
-
-    # Enter a parse tree produced by vecmatlangParser#parenExpr.
-    def enterParenExpr(self, ctx:vecmatlangParser.ParenExprContext):
-        pass
-
-    # Exit a parse tree produced by vecmatlangParser#parenExpr.
-    def exitParenExpr(self, ctx:vecmatlangParser.ParenExprContext):
-        pass
-
-
-    # Enter a parse tree produced by vecmatlangParser#fieldExpr.
-    def enterFieldExpr(self, ctx:vecmatlangParser.FieldExprContext):
-        pass
-
-    # Exit a parse tree produced by vecmatlangParser#fieldExpr.
-    def exitFieldExpr(self, ctx:vecmatlangParser.FieldExprContext):
         pass
 
 

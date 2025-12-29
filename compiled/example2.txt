@@ -1,0 +1,601 @@
+Disassembly of _vml_len:
+ 34           RESUME                   0
+
+ 35           LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (x)
+              LOAD_GLOBAL              2 (list)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       11 (to L1)
+
+ 36           LOAD_GLOBAL              5 (len + NULL)
+              LOAD_FAST                0 (x)
+              CALL                     1
+              RETURN_VALUE
+
+ 37   L1:     LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (x)
+              LOAD_GLOBAL              6 (np)
+              LOAD_ATTR                8 (ndarray)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       55 (to L3)
+
+ 38           LOAD_GLOBAL              5 (len + NULL)
+              LOAD_FAST                0 (x)
+              LOAD_ATTR               10 (shape)
+              CALL                     1
+              LOAD_CONST               1 (1)
+              COMPARE_OP              88 (bool(==))
+              POP_JUMP_IF_FALSE       15 (to L2)
+
+ 39           LOAD_FAST                0 (x)
+              LOAD_ATTR               10 (shape)
+              LOAD_CONST               2 (0)
+              BINARY_SUBSCR
+              RETURN_VALUE
+
+ 41   L2:     LOAD_FAST                0 (x)
+              LOAD_ATTR               10 (shape)
+              LOAD_CONST               2 (0)
+              BINARY_SUBSCR
+              RETURN_VALUE
+
+ 42   L3:     RETURN_CONST             2 (0)
+
+Disassembly of _vml_matrix_mult:
+ 57           RESUME                   0
+
+ 59           LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (a)
+              LOAD_GLOBAL              2 (np)
+              LOAD_ATTR                4 (ndarray)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE      179 (to L3)
+              LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                1 (b)
+              LOAD_GLOBAL              2 (np)
+              LOAD_ATTR                4 (ndarray)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE      148 (to L3)
+
+ 60           LOAD_GLOBAL              7 (len + NULL)
+              LOAD_FAST                0 (a)
+              LOAD_ATTR                8 (shape)
+              CALL                     1
+              LOAD_CONST               1 (2)
+              COMPARE_OP              88 (bool(==))
+              POP_JUMP_IF_FALSE       47 (to L1)
+              LOAD_GLOBAL              7 (len + NULL)
+              LOAD_FAST                1 (b)
+              LOAD_ATTR                8 (shape)
+              CALL                     1
+              LOAD_CONST               1 (2)
+              COMPARE_OP              88 (bool(==))
+              POP_JUMP_IF_FALSE       22 (to L1)
+
+ 61           LOAD_GLOBAL              2 (np)
+              LOAD_ATTR               10 (dot)
+              PUSH_NULL
+              LOAD_FAST_LOAD_FAST      1 (a, b)
+              CALL                     2
+              RETURN_VALUE
+
+ 62   L1:     LOAD_GLOBAL              7 (len + NULL)
+              LOAD_FAST                0 (a)
+              LOAD_ATTR                8 (shape)
+              CALL                     1
+              LOAD_CONST               1 (2)
+              COMPARE_OP              88 (bool(==))
+              POP_JUMP_IF_FALSE       47 (to L2)
+              LOAD_GLOBAL              7 (len + NULL)
+              LOAD_FAST                1 (b)
+              LOAD_ATTR                8 (shape)
+              CALL                     1
+              LOAD_CONST               2 (1)
+              COMPARE_OP              88 (bool(==))
+              POP_JUMP_IF_FALSE       22 (to L2)
+
+ 63           LOAD_GLOBAL              2 (np)
+              LOAD_ATTR               10 (dot)
+              PUSH_NULL
+              LOAD_FAST_LOAD_FAST      1 (a, b)
+              CALL                     2
+              RETURN_VALUE
+
+ 68   L2:     LOAD_FAST_LOAD_FAST      1 (a, b)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+ 64   L3:     LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (a)
+              LOAD_GLOBAL              2 (np)
+              LOAD_ATTR                4 (ndarray)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       31 (to L4)
+              LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                1 (b)
+              LOAD_GLOBAL             12 (int)
+              LOAD_GLOBAL             14 (float)
+              BUILD_TUPLE              2
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE        4 (to L4)
+
+ 65           LOAD_FAST_LOAD_FAST      1 (a, b)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+ 66   L4:     LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (a)
+              LOAD_GLOBAL             12 (int)
+              LOAD_GLOBAL             14 (float)
+              BUILD_TUPLE              2
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       35 (to L5)
+              LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                1 (b)
+              LOAD_GLOBAL              2 (np)
+              LOAD_ATTR                4 (ndarray)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE        4 (to L5)
+
+ 67           LOAD_FAST_LOAD_FAST     16 (b, a)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+ 68   L5:     LOAD_FAST_LOAD_FAST      1 (a, b)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+Disassembly of _vml_norm:
+ 25           RESUME                   0
+
+ 26           LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (x)
+              LOAD_GLOBAL              2 (int)
+              LOAD_GLOBAL              4 (float)
+              BUILD_TUPLE              2
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       11 (to L1)
+
+ 27           LOAD_GLOBAL              7 (abs + NULL)
+              LOAD_FAST                0 (x)
+              CALL                     1
+              RETURN_VALUE
+
+ 28   L1:     LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (x)
+              LOAD_GLOBAL              8 (np)
+              LOAD_ATTR               10 (ndarray)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       31 (to L2)
+
+ 29           LOAD_GLOBAL              8 (np)
+              LOAD_ATTR               12 (linalg)
+              LOAD_ATTR               15 (norm + NULL|self)
+              LOAD_FAST                0 (x)
+              CALL                     1
+              RETURN_VALUE
+
+ 30   L2:     LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (x)
+              LOAD_GLOBAL             16 (list)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       64 (to L3)
+
+ 31           LOAD_GLOBAL              8 (np)
+              LOAD_ATTR               12 (linalg)
+              LOAD_ATTR               15 (norm + NULL|self)
+              LOAD_GLOBAL              8 (np)
+              LOAD_ATTR               18 (array)
+              PUSH_NULL
+              LOAD_FAST                0 (x)
+              LOAD_GLOBAL              8 (np)
+              LOAD_ATTR               20 (float64)
+              LOAD_CONST               1 (('dtype',))
+              CALL_KW                  2
+              CALL                     1
+              RETURN_VALUE
+
+ 32   L3:     RETURN_CONST             2 (0)
+
+Disassembly of _vml_read:
+ 14           RESUME                   0
+
+ 15           LOAD_CONST               1 (0)
+              LOAD_CONST               0 (None)
+              IMPORT_NAME              0 (sys)
+              STORE_FAST               1 (sys)
+
+ 16           LOAD_FAST                1 (sys)
+              LOAD_ATTR                2 (platform)
+              LOAD_CONST               2 ('win32')
+              COMPARE_OP              88 (bool(==))
+              POP_JUMP_IF_FALSE       86 (to L1)
+
+ 17           LOAD_CONST               1 (0)
+              LOAD_CONST               0 (None)
+              IMPORT_NAME              2 (io)
+              STORE_FAST               2 (io)
+
+ 18           LOAD_FAST                2 (io)
+              LOAD_ATTR                7 (TextIOWrapper + NULL|self)
+              LOAD_FAST                1 (sys)
+              LOAD_ATTR                8 (stdin)
+              LOAD_ATTR               10 (buffer)
+              LOAD_CONST               3 ('utf-8')
+              LOAD_CONST               4 (('encoding',))
+              CALL_KW                  2
+              LOAD_FAST                1 (sys)
+              STORE_ATTR               4 (stdin)
+
+ 19           LOAD_FAST                2 (io)
+              LOAD_ATTR                7 (TextIOWrapper + NULL|self)
+              LOAD_FAST                1 (sys)
+              LOAD_ATTR               12 (stdout)
+              LOAD_ATTR               10 (buffer)
+              LOAD_CONST               3 ('utf-8')
+              LOAD_CONST               4 (('encoding',))
+              CALL_KW                  2
+              LOAD_FAST                1 (sys)
+              STORE_ATTR               6 (stdout)
+
+ 20   L1:     LOAD_FAST                0 (prompt)
+              TO_BOOL
+              POP_JUMP_IF_FALSE       62 (to L2)
+
+ 21           LOAD_FAST                1 (sys)
+              LOAD_ATTR               12 (stdout)
+              LOAD_ATTR               15 (write + NULL|self)
+              LOAD_GLOBAL             17 (str + NULL)
+              LOAD_FAST                0 (prompt)
+              CALL                     1
+              CALL                     1
+              POP_TOP
+
+ 22           LOAD_FAST                1 (sys)
+              LOAD_ATTR               12 (stdout)
+              LOAD_ATTR               19 (flush + NULL|self)
+              CALL                     0
+              POP_TOP
+
+ 23   L2:     LOAD_FAST                1 (sys)
+              LOAD_ATTR                8 (stdin)
+              LOAD_ATTR               21 (readline + NULL|self)
+              CALL                     0
+              LOAD_ATTR               23 (strip + NULL|self)
+              CALL                     0
+              RETURN_VALUE
+
+Disassembly of _vml_vector_mult:
+ 44           RESUME                   0
+
+ 46           LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (a)
+              LOAD_GLOBAL              2 (np)
+              LOAD_ATTR                4 (ndarray)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE      107 (to L2)
+              LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                1 (b)
+              LOAD_GLOBAL              2 (np)
+              LOAD_ATTR                4 (ndarray)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       76 (to L2)
+
+ 47           LOAD_GLOBAL              7 (len + NULL)
+              LOAD_FAST                0 (a)
+              LOAD_ATTR                8 (shape)
+              CALL                     1
+              LOAD_CONST               1 (1)
+              COMPARE_OP              88 (bool(==))
+              POP_JUMP_IF_FALSE       47 (to L1)
+              LOAD_GLOBAL              7 (len + NULL)
+              LOAD_FAST                1 (b)
+              LOAD_ATTR                8 (shape)
+              CALL                     1
+              LOAD_CONST               1 (1)
+              COMPARE_OP              88 (bool(==))
+              POP_JUMP_IF_FALSE       22 (to L1)
+
+ 48           LOAD_GLOBAL              2 (np)
+              LOAD_ATTR               10 (dot)
+              PUSH_NULL
+              LOAD_FAST_LOAD_FAST      1 (a, b)
+              CALL                     2
+              RETURN_VALUE
+
+ 55   L1:     LOAD_FAST_LOAD_FAST      1 (a, b)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+ 49   L2:     LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (a)
+              LOAD_GLOBAL              2 (np)
+              LOAD_ATTR                4 (ndarray)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       31 (to L3)
+              LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                1 (b)
+              LOAD_GLOBAL             12 (int)
+              LOAD_GLOBAL             14 (float)
+              BUILD_TUPLE              2
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE        4 (to L3)
+
+ 50           LOAD_FAST_LOAD_FAST      1 (a, b)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+ 51   L3:     LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (a)
+              LOAD_GLOBAL             12 (int)
+              LOAD_GLOBAL             14 (float)
+              BUILD_TUPLE              2
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       35 (to L4)
+              LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                1 (b)
+              LOAD_GLOBAL              2 (np)
+              LOAD_ATTR                4 (ndarray)
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE        4 (to L4)
+
+ 52           LOAD_FAST_LOAD_FAST     16 (b, a)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+ 53   L4:     LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                0 (a)
+              LOAD_GLOBAL             12 (int)
+              LOAD_GLOBAL             14 (float)
+              BUILD_TUPLE              2
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE       31 (to L5)
+              LOAD_GLOBAL              1 (isinstance + NULL)
+              LOAD_FAST                1 (b)
+              LOAD_GLOBAL             12 (int)
+              LOAD_GLOBAL             14 (float)
+              BUILD_TUPLE              2
+              CALL                     2
+              TO_BOOL
+              POP_JUMP_IF_FALSE        4 (to L5)
+
+ 54           LOAD_FAST_LOAD_FAST      1 (a, b)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+ 55   L5:     LOAD_FAST_LOAD_FAST      1 (a, b)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+Disassembly of _vml_write:
+  8           RESUME                   0
+
+  9           LOAD_FAST                0 (args)
+              GET_ITER
+      L1:     FOR_ITER                22 (to L2)
+              STORE_FAST               1 (arg)
+
+ 11           LOAD_GLOBAL              1 (print + NULL)
+              LOAD_GLOBAL              3 (str + NULL)
+              LOAD_FAST                1 (arg)
+              CALL                     1
+              LOAD_CONST               1 ('')
+              LOAD_CONST               2 (('end',))
+              CALL_KW                  2
+              POP_TOP
+              JUMP_BACKWARD           24 (to L1)
+
+  9   L2:     END_FOR
+              POP_TOP
+
+ 12           LOAD_GLOBAL              1 (print + NULL)
+              CALL                     0
+              POP_TOP
+              RETURN_CONST             0 (None)
+
+Disassembly of main:
+ 73           RESUME                   0
+
+ 74           LOAD_CONST               1 (<code object factorial at 0x0000021AB9F088B0, file "D:\Programming\YAPIS\matveclang\vecmatLang\compiled\example2.py", line 74>)
+              MAKE_FUNCTION
+              STORE_FAST               0 (factorial)
+
+ 80           LOAD_GLOBAL              1 (int + NULL)
+              LOAD_GLOBAL              3 (read + NULL)
+              LOAD_CONST               2 ('Enter num:')
+              CALL                     1
+              CALL                     1
+              STORE_FAST               1 (num)
+
+ 81           LOAD_GLOBAL              5 (write + NULL)
+              LOAD_CONST               3 ('Factorial of ')
+              LOAD_FAST                1 (num)
+              LOAD_CONST               4 (' equals ')
+              LOAD_FAST                0 (factorial)
+              PUSH_NULL
+              LOAD_FAST                1 (num)
+              CALL                     1
+              CALL                     4
+              POP_TOP
+
+ 82           LOAD_GLOBAL              6 (np)
+              LOAD_ATTR                8 (array)
+              PUSH_NULL
+              BUILD_LIST               0
+              LOAD_CONST               5 ((1, 2, 3))
+              LIST_EXTEND              1
+              LOAD_GLOBAL              6 (np)
+              LOAD_ATTR               10 (float64)
+              LOAD_CONST               6 (('dtype',))
+              CALL_KW                  2
+              STORE_FAST               2 (vec)
+
+ 83           LOAD_GLOBAL             13 (_vml_norm + NULL)
+              LOAD_FAST                2 (vec)
+              CALL                     1
+              LOAD_CONST               7 (10)
+              COMPARE_OP             148 (bool(>))
+              POP_JUMP_IF_TRUE        29 (to L2)
+
+ 84   L1:     LOAD_GLOBAL             15 (_vml_vector_mult + NULL)
+              LOAD_FAST                2 (vec)
+              LOAD_CONST               8 (2)
+              CALL                     2
+              STORE_FAST               2 (vec)
+
+ 83           LOAD_GLOBAL             13 (_vml_norm + NULL)
+              LOAD_FAST                2 (vec)
+              CALL                     1
+              LOAD_CONST               7 (10)
+              COMPARE_OP             148 (bool(>))
+              POP_JUMP_IF_TRUE         2 (to L2)
+              JUMP_BACKWARD           29 (to L1)
+
+ 85   L2:     LOAD_GLOBAL              5 (write + NULL)
+              LOAD_CONST               9 ('Final length of vector: ')
+              LOAD_GLOBAL             13 (_vml_norm + NULL)
+              LOAD_FAST                2 (vec)
+              CALL                     1
+              CALL                     2
+              POP_TOP
+              RETURN_CONST             0 (None)
+
+Disassembly of <code object factorial at 0x0000021AB9F088B0, file "D:\Programming\YAPIS\matveclang\vecmatLang\compiled\example2.py", line 74>:
+ 74           RESUME                   0
+
+ 75           LOAD_CONST               1 (1)
+              STORE_FAST               1 (result)
+
+ 76           LOAD_GLOBAL              1 (range + NULL)
+              LOAD_CONST               1 (1)
+              LOAD_FAST                0 (n)
+              CALL                     2
+              GET_ITER
+      L1:     FOR_ITER                 7 (to L2)
+              STORE_FAST               2 (i)
+
+ 77           LOAD_FAST_LOAD_FAST     18 (result, i)
+              BINARY_OP                5 (*)
+              STORE_FAST               1 (result)
+              JUMP_BACKWARD            9 (to L1)
+
+ 76   L2:     END_FOR
+              POP_TOP
+
+ 78           LOAD_FAST                1 (result)
+              LOAD_FAST_CHECK          2 (i)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+Disassembly of read:
+ 14           RESUME                   0
+
+ 15           LOAD_CONST               1 (0)
+              LOAD_CONST               0 (None)
+              IMPORT_NAME              0 (sys)
+              STORE_FAST               1 (sys)
+
+ 16           LOAD_FAST                1 (sys)
+              LOAD_ATTR                2 (platform)
+              LOAD_CONST               2 ('win32')
+              COMPARE_OP              88 (bool(==))
+              POP_JUMP_IF_FALSE       86 (to L1)
+
+ 17           LOAD_CONST               1 (0)
+              LOAD_CONST               0 (None)
+              IMPORT_NAME              2 (io)
+              STORE_FAST               2 (io)
+
+ 18           LOAD_FAST                2 (io)
+              LOAD_ATTR                7 (TextIOWrapper + NULL|self)
+              LOAD_FAST                1 (sys)
+              LOAD_ATTR                8 (stdin)
+              LOAD_ATTR               10 (buffer)
+              LOAD_CONST               3 ('utf-8')
+              LOAD_CONST               4 (('encoding',))
+              CALL_KW                  2
+              LOAD_FAST                1 (sys)
+              STORE_ATTR               4 (stdin)
+
+ 19           LOAD_FAST                2 (io)
+              LOAD_ATTR                7 (TextIOWrapper + NULL|self)
+              LOAD_FAST                1 (sys)
+              LOAD_ATTR               12 (stdout)
+              LOAD_ATTR               10 (buffer)
+              LOAD_CONST               3 ('utf-8')
+              LOAD_CONST               4 (('encoding',))
+              CALL_KW                  2
+              LOAD_FAST                1 (sys)
+              STORE_ATTR               6 (stdout)
+
+ 20   L1:     LOAD_FAST                0 (prompt)
+              TO_BOOL
+              POP_JUMP_IF_FALSE       62 (to L2)
+
+ 21           LOAD_FAST                1 (sys)
+              LOAD_ATTR               12 (stdout)
+              LOAD_ATTR               15 (write + NULL|self)
+              LOAD_GLOBAL             17 (str + NULL)
+              LOAD_FAST                0 (prompt)
+              CALL                     1
+              CALL                     1
+              POP_TOP
+
+ 22           LOAD_FAST                1 (sys)
+              LOAD_ATTR               12 (stdout)
+              LOAD_ATTR               19 (flush + NULL|self)
+              CALL                     0
+              POP_TOP
+
+ 23   L2:     LOAD_FAST                1 (sys)
+              LOAD_ATTR                8 (stdin)
+              LOAD_ATTR               21 (readline + NULL|self)
+              CALL                     0
+              LOAD_ATTR               23 (strip + NULL|self)
+              CALL                     0
+              RETURN_VALUE
+
+Disassembly of write:
+  8           RESUME                   0
+
+  9           LOAD_FAST                0 (args)
+              GET_ITER
+      L1:     FOR_ITER                22 (to L2)
+              STORE_FAST               1 (arg)
+
+ 11           LOAD_GLOBAL              1 (print + NULL)
+              LOAD_GLOBAL              3 (str + NULL)
+              LOAD_FAST                1 (arg)
+              CALL                     1
+              LOAD_CONST               1 ('')
+              LOAD_CONST               2 (('end',))
+              CALL_KW                  2
+              POP_TOP
+              JUMP_BACKWARD           24 (to L1)
+
+  9   L2:     END_FOR
+              POP_TOP
+
+ 12           LOAD_GLOBAL              1 (print + NULL)
+              CALL                     0
+              POP_TOP
+              RETURN_CONST             0 (None)
+
