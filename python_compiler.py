@@ -7,7 +7,7 @@ class PythonCompiler(vecmatlangListener):
     def __init__(self):
         super().__init__()
         self.output = []
-        self.indent_level = 0
+        self.indent_level = 1 # отступ первого уровня, поскольку программа компилируется в функцию _main_
         self.current_class = None
         self.current_function = None
         self.current_method = False
@@ -54,8 +54,6 @@ class PythonCompiler(vecmatlangListener):
     def enterProgram(self, ctx: vecmatlangParser.ProgramContext):
         # Добавляем импорты и указание кодировки
         self._add_raw_line("import numpy as np")
-        self._add_raw_line("import sys")
-        self._add_raw_line("import math")
         self._add_raw_line("")
         
         # Устанавливаем кодировку для вывода
@@ -136,12 +134,17 @@ class PythonCompiler(vecmatlangListener):
         self._add_raw_line("write = _vml_write")
         self._add_raw_line("read = _vml_read")
         self._add_raw_line("")
+
+        self._add_raw_line("def _main_():")
+
     
     # ========== Обработка функций ==========
     
     def enterFunctionDecl(self, ctx: vecmatlangParser.FunctionDeclContext):
         func_name = ctx.ID().getText()
         
+        print(f'DEBUG: Enter in function {func_name} declaration')
+
         # Получаем параметры
         params = []
         if ctx.parameterList():
@@ -158,12 +161,8 @@ class PythonCompiler(vecmatlangListener):
         # Увеличиваем счетчик
         self.function_counter[func_name]['count'] += 1
         
-        # Если это первая версия, используем оригинальное имя
-        if self.function_counter[func_name]['count'] == 1:
-            actual_func_name = func_name
-        else:
-            # Для последующих версий добавляем суффикс
-            actual_func_name = f"{func_name}_{param_count}arg"
+        # Для обработки перегрузок добавляем суффикс
+        actual_func_name = f"{func_name}_{param_count}arg"
         
         # Сохраняем информацию о версии
         self.function_counter[func_name]['versions'][param_count] = actual_func_name
@@ -174,6 +173,8 @@ class PythonCompiler(vecmatlangListener):
             'actual_name': actual_func_name,
             'param_count': param_count
         }
+
+        print(f'DEBUG: original: {func_name}, actual: {actual_func_name}, params: {param_count}')
         
         self.current_function = actual_func_name
         self.function_params = params
@@ -181,6 +182,7 @@ class PythonCompiler(vecmatlangListener):
         
         param_str = ", ".join(params)
         self._add_line(f"def {actual_func_name}({param_str}):")
+        print(f'DEBUG: result: ({self.indent_level}) def {actual_func_name}({param_str}):')
         self.indent_level += 1
     
     def exitFunctionDecl(self, ctx: vecmatlangParser.FunctionDeclContext):
@@ -189,6 +191,8 @@ class PythonCompiler(vecmatlangListener):
             if self.output and not any(line.strip().startswith("return") for line in self.output[-5:]):
                 self._add_line("return None")
             
+            print(f'DEBUG: Exit from function declaration')
+
             self.current_function_base_name = None
             self.current_function = None
             self.function_params = []
@@ -200,6 +204,8 @@ class PythonCompiler(vecmatlangListener):
     def enterClassDecl(self, ctx: vecmatlangParser.ClassDeclContext):
         class_name = ctx.ID().getText()
         
+        print(f'DEBUG: Enter in class {class_name} declaration')
+
         # Получаем параметры конструктора
         params = []
         if ctx.parameterList():
@@ -213,11 +219,13 @@ class PythonCompiler(vecmatlangListener):
         
         # Определяем класс
         self._add_line(f"class {class_name}:")
+        print(f'DEBUG: result: ({self.indent_level}) class {class_name}:')
         self.indent_level += 1
         
         # Добавляем конструктор
         param_str = ", ".join(["self"] + params)
         self._add_line(f"def __init__({param_str}):")
+        print(f'DEBUG: result: ({self.indent_level}) def __init__({param_str}):')
         self.indent_level += 1
         
         # Теперь мы в конструкторе
@@ -225,24 +233,41 @@ class PythonCompiler(vecmatlangListener):
         
         # Сохраняем параметры как поля
         for param in params:
-            self._add_line(f"self.{param} = {param}")
+            self.local_vars.add(param)
         
-        # Выходим из конструктора (дальше будут другие методы/поля)
-        self.indent_level -= 1
-        self.in_class_init = False
+        self.constructor_params = params
 
     def exitClassDecl(self, ctx: vecmatlangParser.ClassDeclContext):
         if self.current_class:
             # Выходим из класса
+            print(f'DEBUG: Exit from class feclaration')
             self.indent_level -= 1
             self.current_class = None
             self.in_class_body = False
             self.class_fields = set()
+            self.constructor_params = []
             self._add_raw_line("")
+
+    def enterClassBody(self, ctx: vecmatlangParser.ClassBodyContext):
+        """Вход в тело класса (после конструктора)"""
+        
+        print(f'DEBUG: Enter in classBody')
+
+        # Теперь мы в теле класса
+        self.in_class_body = True
+        self._add_raw_line("")  # Пустая строка между конструктором и методами
+
+    def exitClassBody(self, ctx: vecmatlangParser.ClassBodyContext):
+        """Выход из тела класса"""
+        print(f'DEBUG: Exit from classBody')
+        self.in_class_body = False
+        
 
     def enterMethodDecl(self, ctx: vecmatlangParser.MethodDeclContext):
         method_name = ctx.ID().getText()
         
+        print(f'DEBUG: Enter in method {method_name} declaration')
+
         # Получаем параметры
         params = ["self"]  # Первый параметр - self
         if ctx.parameterList():
@@ -255,6 +280,7 @@ class PythonCompiler(vecmatlangListener):
         
         param_str = ", ".join(params)
         self._add_line(f"def {method_name}({param_str}):")
+        print(f'DEBUG: result: ({self.indent_level}) def {method_name}({param_str}):')
         self.indent_level += 1
 
     def exitMethodDecl(self, ctx: vecmatlangParser.MethodDeclContext):
@@ -263,6 +289,8 @@ class PythonCompiler(vecmatlangListener):
             if self.output and not any(line.strip().startswith("return") for line in self.output[-5:]):
                 self._add_line("return None")
             
+            print(f'DEBUG: Exit from method declaration')
+
             self.current_method = False
             self.function_params = []
             self.indent_level -= 1
@@ -272,6 +300,8 @@ class PythonCompiler(vecmatlangListener):
         var_ctx = ctx.var()
         expr_ctx = ctx.expression()
         
+        print(f'DEBUG: Enter in {ctx.getText()}')
+
         # Компилируем выражение
         expr_code = self._compile_expression(expr_ctx)
         
@@ -281,33 +311,51 @@ class PythonCompiler(vecmatlangListener):
             
             # Проверяем контекст
             if self.in_class_init:
-                # В конструкторе класса - это поле
+                # В конструкторе класса - это инициализация поля
+                print('DEBUG: in constructor')
+
                 self.class_fields.add(var_name)
                 self._add_line(f"self.{var_name} = {expr_code}")
+                print(f'DEBUG: result: ({self.indent_level}) self.{var_name} = {expr_code}')
+                
+            elif self.in_class_body and not self.current_method:
+                # В теле класса, но вне методов - это объявление поля
+                # В Python это обычно делается в конструкторе, но для совместимости
+                # с VML мы можем создать поле в конструкторе
+                self.class_fields.add(var_name)
+                # Для простоты добавляем в конструктор
+                # В реальности нужно было бы запомнить это для добавления в __init__
+                pass  # Пропускаем, так как поля должны быть в конструкторе
+                
             elif self.current_method:
                 # В методе класса
+                print(f'DEBUG: in method')
+
                 if var_name in self.class_fields:
                     # Если это поле класса, используем self.
                     self._add_line(f"self.{var_name} = {expr_code}")
+                    print(f'DEBUG: result: ({self.indent_level}) self.{var_name} = {expr_code}')
                 else:
                     # Локальная переменная в методе
                     self.local_vars.add(var_name)
                     self._add_line(f"{var_name} = {expr_code}")
-            elif self.in_class_body:
-                # В теле класса, но вне методов (статические поля)
-                self.class_fields.add(var_name)
-                self._add_line(f"self.{var_name} = {expr_code}")
+                    print(f'DEBUG: result: ({self.indent_level}) {var_name} = {expr_code}')
             else:
                 # Глобальная или локальная переменная в функции
+                print('DEBUG: in function')
                 self.local_vars.add(var_name)
                 self._add_line(f"{var_name} = {expr_code}")
+                print(f'DEBUG: result: ({self.indent_level}) {var_name} = {expr_code}')
+
                 
         elif var_ctx.fieldAppeal():
+            print('DEBUG: in fieldAppeal')
             # Обращение к полю объекта: obj.field = expr
             field_appeal = var_ctx.fieldAppeal()
             obj_name = field_appeal.ID(0).getText()
             field_name = field_appeal.ID(1).getText()
             self._add_line(f"{obj_name}.{field_name} = {expr_code}")
+            print(f'DEBUG: result: ({self.indent_level}) {obj_name}.{field_name} = {expr_code}')
 
     def enterMultipleAssignment(self, ctx: vecmatlangParser.MultipleAssignmentContext):
         # Получаем переменные слева
@@ -317,18 +365,22 @@ class PythonCompiler(vecmatlangListener):
             if var_ctx.ID():
                 var_name = var_ctx.ID().getText()
                 vars_left.append(var_name)
+
+        print(f'DEBUG: Enter in {ctx.getText()}')
         
         # Компилируем правую часть
         if ctx.primaryExpression():
             # Если это вызов функции
             right_expr = self._compile_primary_expression(ctx.primaryExpression())
             self._add_line(f"{', '.join(vars_left)} = {right_expr}")
+            print(f'DEBUG: result: ({self.indent_level}) {', '.join(vars_left)} = {right_expr}')
         else:
             # Если это список выражений
             exprs = []
             for expr_ctx in ctx.expression():
                 exprs.append(self._compile_expression(expr_ctx))
             self._add_line(f"{', '.join(vars_left)} = {', '.join(exprs)}")
+            print(f'DEBUG: result: ({self.indent_level}) {', '.join(vars_left)} = {', '.join(exprs)}')
     
     # ========== Компиляция выражений ==========
     
@@ -563,10 +615,10 @@ class PythonCompiler(vecmatlangListener):
             arg_count = len(args)
             
             # Определяем, какая версия функции должна быть вызвана
-            if func_name in self.function_overloads:
+            if func_name in self.function_counter:
                 # Ищем подходящую версию
-                if arg_count in self.function_overloads[func_name]['versions']:
-                    actual_func_name = self.function_overloads[func_name]['versions'][arg_count]
+                if arg_count in self.function_counter[func_name]['versions']:
+                    actual_func_name = self.function_counter[func_name]['versions'][arg_count]
                 else:
                     # Используем версию с соответствующим количеством аргументов
                     actual_func_name = f"{func_name}_{arg_count}arg"
@@ -651,13 +703,17 @@ class PythonCompiler(vecmatlangListener):
     # ========== Обработка операторов управления ==========
     
     def enterIfStatement(self, ctx: vecmatlangParser.IfStatementContext):
+
         condition = self._compile_expression(ctx.expression())
         # Убираем лишние скобки из условия
         condition_clean = condition.strip()
         if condition_clean.startswith('(') and condition_clean.endswith(')'):
             condition_clean = condition_clean[1:-1].strip()
+
+        print(f'DEBUG: Enter in ifStatement {ctx.getText()}')
         
         self._add_line(f"if {condition_clean}:")
+        print(f'DEBUG: result: ({self.indent_level}) if {condition_clean}:')
         self.indent_level += 1
         self._in_if_block = True
     
@@ -666,14 +722,17 @@ class PythonCompiler(vecmatlangListener):
         if hasattr(self, '_in_if_block') and self._in_if_block and not ctx.ELSE():
             self.indent_level -= 1
             self._in_if_block = False
-        
+
         # Обработка else
         if ctx.ELSE():
             self.indent_level -= 1  # Выходим из if блока
             self._in_if_block = False
             self._add_line("else:")
+            print(f'DEBUG: result: ({self.indent_level}) else:')
             self.indent_level += 1
             self._in_else_block = True
+
+        print('DEBUG: Exit from ifStatement')
     
     def enterBlock(self, ctx: vecmatlangParser.BlockContext):
         # Блок уже обрабатывается через enterIfStatement и т.д.
@@ -691,6 +750,8 @@ class PythonCompiler(vecmatlangListener):
     def enterForStatement(self, ctx: vecmatlangParser.ForStatementContext):
         var_name = ctx.ID().getText()
         
+        print(f'DEBUG: Enter in forStatement {ctx.getText()}')
+
         # Компилируем аргументы range
         args = []
         if ctx.expression():
@@ -700,6 +761,8 @@ class PythonCompiler(vecmatlangListener):
         args_str = ", ".join(args) if args else ""
         
         self._add_line(f"for {var_name} in range({args_str}):")
+        print(f'DEBUG: result: ({self.indent_level}) for {var_name} in range({args_str}):')
+
         self.indent_level += 1
         self.loop_stack.append("for")
         self.local_vars.add(var_name)
@@ -708,14 +771,19 @@ class PythonCompiler(vecmatlangListener):
         if self.loop_stack and self.loop_stack[-1] == "for":
             self.loop_stack.pop()
         self.indent_level -= 1
+
+        print('DEBUG: Exit from forStatement')
     
     def enterWhileStatement(self, ctx: vecmatlangParser.WhileStatementContext):
         condition = self._compile_expression(ctx.expression())
         condition_clean = condition.strip()
         if condition_clean.startswith('(') and condition_clean.endswith(')'):
             condition_clean = condition_clean[1:-1].strip()
+
+        print(f'DEBUG: Enter in whileStatement {ctx.getText()}')
         
         self._add_line(f"while {condition_clean}:")
+        print(f'DEBUG: result: ({self.indent_level}) while {condition_clean}:')
         self.indent_level += 1
         self.loop_stack.append("while")
     
@@ -724,15 +792,20 @@ class PythonCompiler(vecmatlangListener):
             self.loop_stack.pop()
         self.indent_level -= 1
 
+        print('DEBUG: Exit from whileStatement')
+
     def enterUntilStatement(self, ctx: vecmatlangParser.UntilStatementContext):
         condition = self._compile_expression(ctx.expression())
         condition_clean = condition.strip()
         if condition_clean.startswith('(') and condition_clean.endswith(')'):
             condition_clean = condition_clean[1:-1].strip()
         
+        print(f'DEBUG: Enter in untilStatement {ctx.getText()}')
+
         # until выполняется ДО ТЕХ ПОР, ПОКА условие НЕ выполнится
         # то есть: while not (condition)
         self._add_line(f"while not ({condition_clean}):")
+        print(f'DEBUG: result: ({self.indent_level}) while not ({condition_clean}):')
         self.indent_level += 1
         self.loop_stack.append("until")
 
@@ -740,6 +813,8 @@ class PythonCompiler(vecmatlangListener):
         if self.loop_stack and self.loop_stack[-1] == "until":
             self.loop_stack.pop()
         self.indent_level -= 1
+
+        print('DEBUG: Exit from untilStatement')
     
     def enterReturnStatement(self, ctx: vecmatlangParser.ReturnStatementContext):
         if ctx.argumentList():
@@ -750,12 +825,15 @@ class PythonCompiler(vecmatlangListener):
             if len(args) > 1:
                 # Возврат кортежа
                 args_str = ", ".join(args)
-                self._add_line(f"return ({args_str},)")
+                self._add_line(f"return {args_str}")
+                print(f'DEBUG: result: ({self.indent_level}) return {args_str}')
             else:
                 args_str = args[0] if args else ""
                 self._add_line(f"return {args_str}")
+                print(f'DEBUG: result: ({self.indent_level}) return {args_str}')
         else:
             self._add_line("return None")
+            print(f'DEBUG: result: ({self.indent_level}) return None')
     
     def enterWriteStatement(self, ctx: vecmatlangParser.WriteStatementContext):
         args = []
@@ -765,6 +843,7 @@ class PythonCompiler(vecmatlangListener):
         
         args_str = ", ".join(args) if args else ""
         self._add_line(f"write({args_str})")
+        print(f'DEBUG: result: ({self.indent_level}) write({args_str})')
     
     def enterReadStatement(self, ctx: vecmatlangParser.ReadStatementContext):
         # Этот метод не должен ничего добавлять в вывод
@@ -777,9 +856,11 @@ class PythonCompiler(vecmatlangListener):
         if ctx.CONTINUE():
             if self.loop_stack:
                 self._add_line("continue")
+                print(f'DEBUG: result: ({self.indent_level}) continue')
         elif ctx.BREAK():
             if self.loop_stack:
                 self._add_line("break")
+                print(f'DEBUG: result: ({self.indent_level}) break')
     
     # ========== Генерация кода ==========
     

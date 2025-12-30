@@ -17,7 +17,6 @@ DISEMBLED_CODE_FILES = [
 ]
 
 if __name__ == "__main__":
-
     for output_file, module in zip(DISEMBLED_CODE_FILES, PYC_CODE_MODULES):
         with open(output_file, 'w', encoding='utf-8') as dis_file:
             dis.dis(module, file=dis_file)
