@@ -1,6 +1,4 @@
 import numpy as np
-import sys
-import math
 
 # -*- coding: utf-8 -*-
 
@@ -70,15 +68,17 @@ def _vml_matrix_mult(a, b):
 write = _vml_write
 read = _vml_read
 
-def main():
+def _main_():
     class VectorPair:
         def __init__(self, v1, v2):
+
             self.vec1 = v1
             self.vec2 = v2
-        def cos_similarity(self):
-            vec_product = _vml_vector_mult(self.vec1, self.vec2)
-            norm_product = _vml_vector_mult(_vml_norm(self.vec1), _vml_norm(self.vec2))
-            return (vec_product / norm_product)
+            def cos_similarity(self):
+                self.vec_product = _vml_vector_mult(self.vec1, self.vec2)
+                self.norm_product = _vml_vector_mult(_vml_norm(self.vec1), _vml_norm(self.vec2))
+                return (self.vec_product / self.norm_product)
 
-    vec_pair = VectorPair(np.array([1, 2, 3], dtype=np.float64), np.array([3, 2, 1], dtype=np.float64))
-    write("Cos-similarity of vectors: ", vec_pair.vec1, "and ", vec_pair.vec2, "equals ", vec_pair.cos_similarity())
+
+        self.vec_pair = VectorPair(np.array([1, 2, 3], dtype=np.float64), np.array([3, 2, 1], dtype=np.float64))
+        write("Cos-similarity of vectors: ", vec_pair.vec1, "and ", vec_pair.vec2, "equals ", vec_pair.cos_similarity())

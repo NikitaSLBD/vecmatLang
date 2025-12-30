@@ -1,6 +1,4 @@
 import numpy as np
-import sys
-import math
 
 # -*- coding: utf-8 -*-
 
@@ -70,15 +68,15 @@ def _vml_matrix_mult(a, b):
 write = _vml_write
 read = _vml_read
 
-def main():
-    def factorial(n):
+def _main_():
+    def factorial_1arg(n):
         result = 1
         for i in range(1, n):
             result = (result * i)
         return (result * i)
 
     num = int(read("Enter num:"))
-    write("Factorial of ", num, " equals ", factorial(num))
+    write("Factorial of ", num, " equals ", factorial_1arg(num))
     vec = np.array([1, 2, 3], dtype=np.float64)
     while not (_vml_norm(vec) > 10):
         vec = _vml_vector_mult(vec, 2)

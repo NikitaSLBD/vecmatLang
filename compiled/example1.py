@@ -1,6 +1,4 @@
 import numpy as np
-import sys
-import math
 
 # -*- coding: utf-8 -*-
 
@@ -70,7 +68,7 @@ def _vml_matrix_mult(a, b):
 write = _vml_write
 read = _vml_read
 
-def main():
+def _main_():
     i1 = 3
     f1 = 2.86
     n1 = i1 - f1
@@ -80,11 +78,11 @@ def main():
     len_sum_v = _vml_norm(sum_v)
     m1 = np.array([np.array([1, 2], dtype=np.float64), np.array([3, 4], dtype=np.float64)], dtype=np.float64)
     m2 = np.array([np.array([0, 1], dtype=np.float64), np.array([1, 0], dtype=np.float64)], dtype=np.float64)
-    prod_m = _vml_matrix_mult(_vml_matrix_mult(m1, m2), m1[1])
+    prod_m = (_vml_matrix_mult(m1, m2) * m1[1])
     if len_sum_v > 10:
         i2 = 5
         write("Vectors sum length more than 10")
-    else:
-        i2 = 7
-        write("Vectors sum length less than 10")
+    i2 = 7
+    write("Vectors sum length less than 10")
+else:
     write(i2)

@@ -1,6 +1,4 @@
 import numpy as np
-import sys
-import math
 
 # -*- coding: utf-8 -*-
 
@@ -70,12 +68,12 @@ def _vml_matrix_mult(a, b):
 write = _vml_write
 read = _vml_read
 
-def main():
+def _main_():
     def swap_2arg(a, b):
-        return (b, a,)
+        return b, a
 
     def swap_3arg(a, b, c):
-        return (b, c, a,)
+        return b, c, a
 
     x = np.array([1, 2, 3], dtype=np.float64)
     y = np.array([4, 5], dtype=np.float64)
